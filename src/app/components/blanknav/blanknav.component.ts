@@ -205,7 +205,7 @@ export class BlanknavComponent implements OnInit {
     this.searchLoading = true;
     if (this.search.length >= 3) {
       this._ProductsService
-        .getAllProduct(this.search, [], [], [], 1, 1, 'EGP',this.currentLang)
+        .getAllProduct(this.search, [], [], [], 0, 1, 'EGP',this.currentLang)
         .subscribe({
           next: (res) => {
             console.log(res);
