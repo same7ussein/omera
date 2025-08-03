@@ -1,0 +1,25 @@
+
+.add-btn{
+    background-color: transparent;
+    color: var(--main-color);
+    font-size: 20px;
+    border: 1px solid var(--main-color);
+    display: flex;
+    align-items: center;
+    transition: 0.2s;
+    &:hover {
+        background-color: var(--main-color);
+        color: white;
+    }
+}
+
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+    
+    border-color:0;
+}
+// prime ng inputNumber
+
+::ng-deep p-inputnumber[dir='rtl'] .p-inputnumber-button-group {
+  right: auto !important;
+  left: 1px !important;
+}

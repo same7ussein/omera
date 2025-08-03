@@ -1,0 +1,319 @@
+<div class="py-5" [dir]="isArabic() ? 'rtl' : 'ltr'">
+    <p-stepper [linear]="true" #stepper>
+        <p-stepperPanel header="{{'add&editProduct.Main Information' | translate}}">
+            <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+
+                <h2 class="h3 mb-4">{{'add&editProduct.Product Details' | translate}}</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img #img [src]="productImageSrc ||'./assets/placeholder-image.png'" class="w-100 rounded-3"
+                            alt="laceholder image">
+                        <h3 class="mt-4 text-center" *ngIf="productTitleEn == 'Product Title'">{{'add&editProduct.' + productTitleEn| translate}}{{' / ' + productTitleAr}}</h3>
+                        <h3 class="mt-4 text-center" *ngIf="productTitleEn !== 'Product Title'">{{productTitleEn + ' / ' + productTitleAr}}</h3>
+                    </div>
+                    <div class="col-md-8" [lang]="isArabic()? 'ar':'en'">
+                        <div class="border_secondry rounded-1 p-2">
+                            <form [formGroup]="firstForm">
+                                <div class="d-flex flex-column gap-2">
+                                    <div>
+                                        <label for="file-Thumbnail" class="h6">{{'add&editProduct.Product Thumbnail' | translate}}</label>
+                                        <input #fileInput type="file" class="form-control mt-2"
+                                            id="file-Thumbnail" (change)="onFileChange($event)"
+                                            (change)="onThumbnailChange($event)" accept="image/*">
+                                    </div>
+                                    <div class="p-2 border rounded-2">
+                                        <div>
+                                            <label for="titleEn" class="h6">{{'add&editProduct.Title' | translate}}</label>
+                                            <input type="text" formControlName="title_en" class="form-control mt-2" id="titleEn"
+                                                (input)="onTitleChange('en',$event)">
+                                        </div>
+                                        <div dir="rtl" class="mt-2">
+                                            <label for="titleAr" class="h6">أسم المنتج</label>
+                                            <input type="text" formControlName="title_ar" class="form-control mt-2" id="titleAr"
+                                                (input)="onTitleChange('ar',$event)">
+                                        </div>
+                                    </div>
+                                    <div class="p-2 border rounded-2">
+                                        <div>
+                                            <label for="descEn" class="h6">{{'add&editProduct.Description' | translate}}</label>
+                                            <textarea id="descEn" formControlName="description_en" cols="30" rows="5"
+                                                class="form-control mt-2"></textarea>
+                                        </div>
+                                        <div class="mt-2" dir="rtl">
+                                            <label for="descAr" class="h6">وصف المنتج</label>
+                                            <textarea id="descAr" formControlName="description_ar" cols="30" rows="5"
+                                                class="form-control mt-2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex d-flex-wrap gap-3 border-bottom py-3">
+                                        <div>
+                                            <label class="mb-2 d-block" for="category">{{'add&editProduct.Select Category' | translate}}</label>
+                                            <select class="form-select" name="category" id="category"
+                                                formControlName="category">
+                                                <option [value]="cat.code" *ngFor="let cat of categories">{{cat.name}}
+                                                </option>
+                                            </select>
+                                            <!-- <p-dropdown formControlName="category"  [options]="category" inputId="cat" 
+                                                optionLabel="name" [showClear]="true" placeholder="Select"
+                                            ></p-dropdown> -->
+                                        </div>
+                                        <div>
+                                            <label class="mb-2 d-block" for="brand">{{'add&editProduct.Select Brand' | translate}}</label>
+                                            <select class="form-select" name="brand" id="brand" formControlName="brand">
+                                                <option [value]="opt.code" *ngFor="let opt of brands">{{opt.name}}
+                                                </option>
+                                            </select>
+                                            <!-- <p-dropdown formControlName="brand" [options]="brands" inputId="brand"
+                                                optionLabel="name" [showClear]="true" placeholder="Select"
+                                            ></p-dropdown> -->
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <div>
+                                            <label class="mb-2 d-block" for="priceEGP">{{'add&editProduct.price in EGP' | translate}}</label>
+                                            <p-inputNumber [dir]="isArabic() ? 'rtl' : 'ltr'" formControlName="price_EGP" [locale]="'en-EG'"
+                                                inputId="priceEGP" [showButtons]="true" mode="currency" [min]="0"
+                                                currency="EGP">
+                                            </p-inputNumber>
+                                        </div>
+                                        <div>
+                                            <label class="mb-2 d-block " for="priceAED">{{'add&editProduct.price in AED' | translate}}</label>
+                                            <p-inputNumber [dir]="isArabic() ? 'rtl' : 'ltr'" formControlName="price_AED" [locale]="'en-AE'"
+                                                inputId="priceAED" [showButtons]="true" mode="currency" [min]="0"
+                                                currency="AED">
+                                            </p-inputNumber>
+                                        </div>
+                                        <div>
+                                            <label class="mb-2 d-block" for="shippingamont">{{'add&editProduct.shipping amont' | translate}}
+                                            </label>
+
+                                            <p-inputNumber [dir]="isArabic() ? 'rtl' : 'ltr'" formControlName="shipping_amount" inputId="shippingamont"
+                                                [showButtons]="true" [min]="0">
+                                            </p-inputNumber>
+                                        </div>
+                                        <div>
+                                            <label class="mb-2 d-block" for="stockquantity">{{'add&editProduct.Stock Quantity' | translate}}</label>
+
+                                            <p-inputNumber [dir]="isArabic() ? 'rtl' : 'ltr'" formControlName="stock_qty" inputId="stockquantity"
+                                                [showButtons]="true" [min]="0">
+                                            </p-inputNumber>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex pt-4 justify-content-end">
+                    <p-button label="{{'add&editProduct.Next' | translate}}" [disabled]="firstForm.invalid" [icon]="isArabic() ? 'pi pi-arrow-left' : 'pi pi-arrow-right' " iconPos="right"
+                        (onClick)="nextCallback.emit() " (onClick)="hello()" (onClick)="updateProductDetails()"/>
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+        <p-stepperPanel header="{{'add&editProduct.Gallery' | translate}}">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+
+                <h2 class="h3 mb-4" [lang]="isArabic()? 'ar':'en'">{{'add&editProduct.Gallery' | translate}}</h2>
+                <form class="border_main p-4 rounded-3" [formGroup]="imageForm">
+                    <div formArrayName="images">
+                        <div class="my-3 d-flex gap-3 align-items-start"
+                            *ngFor="let input of inputsImages; let i = index">
+                            <div class="d-flex gap-2 align-items-end">
+                                <div class="d-flex flex-wrap align-items-center gap-3">
+                                    <img  [src]="input.image ? input.image : './assets/placeholder-image.png'" alt=""
+                                        width="200px" height="120px" class="rounded-2">
+                                    <div class="mb-2" [lang]="isArabic()? 'ar':'en'">
+                                        <label class="h6">{{'add&editProduct.Upload Image' | translate}}</label>
+                                        <input #imageInput [attr.gid]="input.gid" type="file" accept="image/*" class="form-control mt-2"
+                                            (change)="onImageInputChange($event, i)">
+                                    </div>
+                                    <button #updateGalleryBtn class="btn bg-primary text-white mt-4" [disabled]="imageInput.value.length == 0"
+                                        *ngIf="update" (click)="updateProductGalleryImage(i , updateGalleryBtn)">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                    </button>
+                                    
+                                    <button class="btn bg-danger text-white mt-4"
+                                        (click)="deleteProductGalleryImage(input.gid)"
+                                        (click)="removeInput(inputsImages,images,i)" *ngIf="inputsImages.length > 1">
+                                        <i class="fa fa-solid fa-remove"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button class="add-btn py-2 gap-2 mt-3" (click)="addToImagesFormGroup()"
+                    (click)="addInput(inputsImages)" *ngIf="inputsImages.length < 8">
+                    <span>{{'add&editProduct.Add More' | translate}}</span>
+                    <i class="fa fa-solid fa-add"></i>
+                </button>
+
+                <div class="d-flex pt-4 justify-content-between">
+                    <p-button label="{{'add&editProduct.Back' | translate}}" [icon]="isArabic() ? 'pi pi-arrow-right' : 'pi pi-arrow-left' " (onClick)="prevCallback.emit()" />
+                    <p-button label="{{'add&editProduct.Next' | translate}}" [disabled]="imageForm.invalid && update == false"
+                    [icon]="isArabic() ? 'pi pi-arrow-left' : 'pi pi-arrow-right'" iconPos="right" (onClick)="collectProductImages()" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+
+        <!-- Specifications -->
+
+        <p-stepperPanel header="{{'add&editProduct.Specifications' | translate}}">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+
+                <h2 class="h3 mb-4" [lang]="isArabic()? 'ar':'en'">{{'add&editProduct.Specifications' | translate}}</h2>
+                <form class="border_main p-4 rounded-3" [formGroup]="specificationForm">
+                    <div  formArrayName="specifications" >
+                        <div #specification class="d-flex flex-column gap-2 align-items-center justify-content-center border_secondry rounded-2 p-3 mb-2" *ngFor="let spec of inputsSpecifications; let i = index">
+                            <div  [formGroupName]="i" class="w-100 d-flex gap-2 align-items-end" [lang]="isArabic()? 'ar':'en'">
+                                <div class="mb-2 w-50">
+                                    <label for="title">{{'add&editProduct.title' | translate}}</label>
+                                    <input id="title" type="text" class="form-control mt-2 w-100" formControlName="title_en" (input)="displayUpdateBtn(specification,spec.spid)">
+                                </div>
+                                <div class="mb-2 w-50">
+                                    <label for="Cotent">{{'add&editProduct.Content' | translate}}</label>
+                                    <input id="Cotent" type="text" class="form-control mt-2" formControlName="content_en" (input)="displayUpdateBtn(specification,spec.spid)">
+                                </div>
+                            </div>
+                            <div  [formGroupName]="i" class="w-100 d-flex gap-2 align-items-end" dir="rtl" [lang]="isArabic()? 'ar':'en'">
+                                <div class="mb-2 w-50">
+                                    <label for="titleAr">العنوان</label>
+                                    <input id="titleAr" type="text" class="form-control mt-2" formControlName="title_ar" (input)="displayUpdateBtn(specification,spec.spid)">
+                                </div>
+                                <div class="mb-2 w-50">
+                                    <label for="CotentAr">المحتوي</label>
+                                    <input id="CotentAr" type="text" class="form-control mt-2" formControlName="content_ar" (input)="displayUpdateBtn(specification,spec.spid)">
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                                <button #updateSpecBtn class="updateBtn btn bg-primary text-white mb-2"
+                                *ngIf="update" (click)="updateProductSpecification(spec.spid , i , updateSpecBtn)">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                </button>
+                                <button class="btn bg-danger text-white mb-2"
+                                    (click)="deleteProductSpecification(spec.spid)"
+                                    (click)="removeInput(inputsSpecifications,specifications,i)"
+                                    *ngIf="update">
+                                    <i class="fa fa-solid fa-remove"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button class="add-btn py-2 gap-2 mt-3" (click)="addToSpecificationsFormGroup()"
+                    (click)="addInput(inputsSpecifications)" *ngIf="inputsSpecifications.length < 8">
+                    <span>{{'add&editProduct.Add More' | translate}}</span>
+                    <i class="fa fa-solid fa-add"></i>
+                </button>
+
+                <div class="d-flex pt-4 justify-content-between">
+                    <p-button label="{{'add&editProduct.Back' | translate}}" [icon]="isArabic() ? 'pi pi-arrow-right' : 'pi pi-arrow-left' " (onClick)="prevCallback.emit()" />
+                    <p-button label="{{'add&editProduct.Next' | translate}}" [disabled]="specificationForm.invalid" (onClick)="showSpecificationForm()"
+                    [icon]="isArabic() ? 'pi pi-arrow-left' : 'pi pi-arrow-right'" iconPos="right" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+
+
+        <!-- Color -->
+        <p-stepperPanel header="{{'add&editProduct.Colors' | translate}}">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+
+                <h2 class="h3 mb-4" [lang]="isArabic()? 'ar':'en'">{{'add&editProduct.Colors' | translate}}</h2>
+                <form class="border_main p-4 rounded-3" [formGroup]="colorForm">
+                    <div formArrayName="colors">
+                        <div #color class="d-flex gap-2 align-items-end border_secondry rounded-2 p-3 mb-2" *ngFor="let color of inputsColors; let i = index">
+                            <div [formGroupName]="i" class="d-flex flex-column gap-2 align-items-end" [lang]="isArabic()? 'ar':'en'">
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <div class="mb-2">
+                                        <label for="nameEn">{{'add&editProduct.Color name' | translate}}</label>
+                                        <input id="nameEn" type="text" class="form-control mt-2" formControlName="name_en" (input)="displayUpdateBtn(color , color.cid)">
+                                    </div>
+                                    <div class="mb-2" dir="rtl">
+                                        <label for="nameAr">أسم اللون</label>
+                                        <input id="nameAr" type="text" class="form-control mt-2" formControlName="name_ar" (input)="displayUpdateBtn(color , color.cid)">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="code">{{'add&editProduct.Color Code' | translate}}</label>
+                                        <input id="code" type="text" class="form-control mt-2" formControlName="code" (input)="displayUpdateBtn(color , color.cid)">
+                                    </div>
+                                </div>
+                            </div>
+                            <button #updateBtn class="updateBtn btn bg-primary text-white mb-2"
+                                *ngIf="update" (click)="updateProductColor(color.cid , i , updateBtn)">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                </button>
+                            <button class="btn bg-danger text-white mb-2"
+                                (click)="deleteProductColor(color.cid)"
+                                (click)="removeInput(inputsColors,colors,i)"
+                                *ngIf="inputsColors.length > 1">
+                                <i class="fa fa-solid fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <button class="add-btn py-2 gap-2 mt-3" (click)="addToColorsFormGroup()"
+                    (click)="addInput(inputsColors)" *ngIf="inputsColors.length <8">
+                    <span>{{'add&editProduct.Add More' | translate}}</span>
+                    <i class="fa fa-solid fa-add"></i>
+                </button>
+
+                <div class="d-flex pt-4 justify-content-between">
+                    <p-button label="{{'add&editProduct.Back' | translate}}" [icon]="isArabic() ? 'pi pi-arrow-right' : 'pi pi-arrow-left' " (onClick)="prevCallback.emit()" />
+                    <p-button label="{{'add&editProduct.Next' | translate}}" [disabled]="colorForm.invalid" (onClick)="showColorsForm()"
+                    [icon]="isArabic() ? 'pi pi-arrow-left' : 'pi pi-arrow-right'" iconPos="right" (onClick)="nextCallback.emit()" />
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+
+        <!-- Size -->
+        <p-stepperPanel header="{{'add&editProduct.Sizes' | translate}}">
+            <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
+                let-index="index">
+                <h2 class="h3 mb-4" [lang]="isArabic()? 'ar':'en'">{{'add&editProduct.Sizes' | translate}}</h2>
+                <form class="border_main p-4 rounded-3" [formGroup]="sizeForm">
+                    <div formArrayName="sizes">
+                        <div #size class="d-flex gap-2 align-items-end border_secondry rounded-2 p-3 mb-2" *ngFor="let size of inputsSizes; let i = index">
+                            <div [formGroupName]="i" class="d-flex gap-2 align-items-end" [lang]="isArabic()? 'ar':'en'">
+                                <div class="mb-2">
+                                    <label for="sizeNameEn">{{'add&editProduct.Size' | translate}}</label>
+                                    <input id="sizeNameEn" type="text" class="form-control mt-2" formControlName="name_en" (input)="displayUpdateBtn(size , size.sid)">
+                                </div>
+                                <div class="mb-2">
+                                    <label for="sizeNameAr">المقاس</label>
+                                    <input id="sizeNameAr" type="text" class="form-control mt-2" formControlName="name_ar" (input)="displayUpdateBtn(size , size.sid)">
+                                </div>
+                            </div>
+                            <button #updateSizeBtn class="updateBtn btn bg-primary text-white mb-2"
+                            *ngIf="update" (click)="updateProductSize(size.sid , i , updateSizeBtn)">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            </button>
+                            <button class="btn bg-danger text-white mb-2" 
+                            (click)="deleteProductSize(size.sid)"
+                            (click)="removeInput(inputsSizes,sizes,i)"
+                                *ngIf="inputsSizes.length > 1">
+                                <i class="fa fa-solid fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <button class="add-btn py-2 gap-2 mt-3" (click)="addToSizesFormGroup()" (click)="addInput(inputsSizes)"
+                    *ngIf="inputsSizes.length < 8">
+                    <span>{{'add&editProduct.Add More' | translate}}</span>
+                    <i class="fa fa-solid fa-add"></i>
+                </button>
+
+                <div class="d-flex pt-4 justify-content-between">
+                    <p-button label="{{'add&editProduct.Back' | translate}}" [icon]="isArabic() ? 'pi pi-arrow-right' : 'pi pi-arrow-left' " (onClick)="prevCallback.emit()" />
+                    <button *ngIf="update == false" class="btn-main" [disabled]="sizeForm.invalid" (click)="showSizesForm()"
+                        (click)="addProduct()">Add Product</button>
+                    <button *ngIf="update" class=" btn-main" [disabled]="sizeForm.invalid" (click)="showSizesForm()"
+                        (click)="checkUpdates()">Update Product</button>
+                </div>
+            </ng-template>
+        </p-stepperPanel>
+    </p-stepper>
+</div>

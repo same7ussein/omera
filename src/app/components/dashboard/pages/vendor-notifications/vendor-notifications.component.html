@@ -1,0 +1,88 @@
+<section class="py-5" *ngIf="!loading else notload">
+    <div class="container">
+        <h1  [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">{{'dashboard.Notifications'|translate}}</h1>
+        <div class="row"  [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">
+            <div class="col-sm-4">
+                <div class="bg-white shadow p-4 rounded-3">
+                <P class="mb-4">{{'dashboard.Unread Notifications'|translate}}</P>
+                <P class="h2">{{vendorNotificationsCount.un_read_noti}}</P>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="bg-white shadow  p-4 rounded-3">
+                    <P class="mb-4">{{'dashboard.Read Notifications'|translate}}</P>
+                    <P class="h2">{{vendorNotificationsCount.read_noti}}</P>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="bg-white shadow  p-4 rounded-3">
+                    <P class="mb-4">{{'dashboard.All Notifications'|translate}}</P>
+                    <P class="h2">{{vendorNotificationsCount.all_noti}}</P>
+                </div>
+            </div>
+        </div>
+        <hr class="my-3">
+        <table class="table align-middle" *ngIf="vendorUnreadNotifications.length > 0" [dir]="isArabic()?'rtl':'ltr'">
+            <thead>
+                <tr>
+                    <th>{{'dashboard.Type'|translate}}</th>
+                    <th>{{'dashboard.Message'|translate}}</th>
+                    <th>{{'dashboard.Status'|translate}}</th>
+                    <th>{{'dashboard.Date'|translate}}</th>
+                    <th>{{'dashboard.Action'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = 'let unreadNoti of vendorUnreadNotifications'>
+                    <td>new order from : <span class="fw-bold">{{unreadNoti?.order?.full_name}}</span></td>
+                    <td>you have got a new order for <span class="fw-bold">{{unreadNoti?.order_item?.product?.slug}}</span></td>
+                    <td>Un Read <i class="fa-solid fa-eye-slash ms-2"></i></td>
+                    <td>{{unreadNoti.date | slice : 0 : 10}}</td>
+                    <td><button class="btn btn-secondary align-middle" (click)="markAsRead(unreadNoti.id)"><i class="fa-solid fa-eye"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="p-3 rounded-2 shadow my-3" *ngIf="vendorUnreadNotifications.length == 0"  [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">
+            <p class="h3 text-prim text-center">{{'dashboard.No notifications exist'|translate}} <img src="./assets/notification.png" alt="" height="50"></p>
+        </div>
+
+        <button class="btn btn-main" (click)="viewAllReadNoti(layer)" >{{'dashboard.All Read Notifications'|translate}}</button>
+
+        <div #layer class="layer position-fixed top-0 bottom-0 start-0 end-0 d-flex justify-content-center align-items-start d-none" ><!-- 55555 -->
+            <div class="couponData bg-main-light p-4 mt-5 rounded-2 overflow-auto">
+                <div class="d-flex justify-content-between align-items-center mb-3" [dir]="isArabic()?'rtl':'ltr'">
+                    <h2 class="h5" >{{'dashboard.All Read Notifications'|translate}}</h2>
+                    <i class="fa fa-solid fa-close fa-x" role="button" (click)="closeLayer(layer)"></i>
+                </div>
+                <table class="table align-middle " *ngIf="vendorReadNotifications.length > 0" [dir]="isArabic()?'rtl':'ltr'">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>{{'dashboard.Type'|translate}}</th>
+                            <th>{{'dashboard.Message'|translate}}</th>
+                            <th>{{'dashboard.Status'|translate}}</th>
+                            <th>{{'dashboard.Date'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = 'let readNoti of vendorReadNotifications'>
+                            <td>new order <span class="fw-bold">{{readNoti.order_item.oid}}</span></td>
+                            <td>you have got a new order for <span class="fw-bold">{{readNoti.order_item.product.slug}}</span></td>
+                            <td>Read <i class="fa-solid fa-eye-slash ms-1"></i></td>
+                            <td>{{readNoti.date | slice : 0 : 10}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+               
+                <div class="p-3 rounded-2 shadow" *ngIf="vendorReadNotifications.length == 0">
+                    <p class="h3 text-prim text-center">{{'dashboard.No notifications exist'|translate}} <img src="./assets/notification.png" alt="" height="50"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ng-template #notload>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <img src="./assets/placeholder/loading.gif" width="100px" alt="">
+    </div>
+</ng-template>

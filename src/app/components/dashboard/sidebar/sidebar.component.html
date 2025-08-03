@@ -1,0 +1,96 @@
+<div class="page-wrapper chiller-theme toggled position-relative" [dir]="isArabic()?'rtl':'ltr'">
+    <nav class="sidebar-wrapper">
+        <div class="sidebar-content">
+
+            <!-- <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                        </div>
+                    </div>
+                </div> -->
+            <!-- sidebar-search  -->
+            <div class="sidebar-menu">
+
+                <ul class="mt-3">
+                    <!-- <li class="header-menu">
+                            <span>General</span>
+                        </li> -->
+                    <li class="sidebar-dropdown" routerLink="home" routerLinkActive="router-active">
+                        <a>
+                            <i class="fa fa-tachometer-alt"></i>
+                            <span>{{'dashboard.dashboard'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="sidebar-dropdown" routerLinkActive="router-active">
+                            <a>
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Products</span>
+                            </a>
+                        </li> -->
+                    <li class="sidebar-dropdown" routerLink="addproduct" routerLinkActive="router-active">
+                        <a>
+                            <i class="far fa-gem"></i>
+                            <span>{{'dashboard.Add Product'|translate}}</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-dropdown" routerLink="orders" routerLinkActive="router-active">
+                        <a>
+                            <i class="fa fa-chart-line"></i>
+                            <span>{{'dashboard.Orders'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="sidebar-dropdown" routerLinkActive="router-active">
+                            <a>
+                                <i class="fa fa-chart-line"></i>
+                                <span>Reviews</span>
+                            </a>
+                        </li> -->
+                    <li class="sidebar-dropdown" routerLink="vendorCoupons" routerLinkActive="router-active">
+                        <a>
+                            <i class="fa fa-chart-line"></i>
+                            <span>{{'dashboard.Coupon & Discount'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="sidebar-dropdown" routerLinkActive="router-active">
+                            <a>
+                                <i class="fa fa-chart-line"></i>
+                                <span>Earning</span>
+                            </a>
+                        </li> -->
+                    <li class="sidebar-dropdown" routerLink="vendorNotifications" routerLinkActive="router-active">
+                        <a>
+                            <i class="fa fa-chart-line"></i>
+                            <span>{{'dashboard.Notifications'|translate}}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="sidebar-dropdown" routerLinkActive="router-active">
+                            <a>
+                                <i class="fa fa-chart-line"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li> -->
+                </ul>
+            </div>
+            <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->
+        <div class="sidebar-footer">
+            <!-- <a>
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-pill badge-warning notification">3</span>
+                </a>
+                <a>
+                    <i class="fa fa-envelope"></i>
+                    <span class="badge badge-pill badge-success notification">7</span>
+                </a>
+                <a>
+                    <i class="fa fa-cog"></i>
+                    <span class="badge-sonar"></span>
+                </a> -->
+            <a class="cursor-pointer" [routerLink]="['/home']" [pTooltip]="'dashboard.Exit'|translate">
+                <i class="fa fa-power-off"></i>
+            </a>
+        </div>
+    </nav>
+</div>

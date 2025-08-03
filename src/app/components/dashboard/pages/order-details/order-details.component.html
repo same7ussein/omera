@@ -1,0 +1,114 @@
+<section class="container-fluid text-capitalize py-3" *ngIf="!loading else notload">
+  <h1 class="h3">
+    <i class="fa-solid fa-cart-shopping text-info"></i>#{{ Oid }}
+  </h1>
+  <div class="row mt-4" [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">
+        <div class="col-md-4">
+          <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+            <span>{{'dashboard.Total Price'|translate}}</span>
+            <span class="h3">{{ data?.vendor_total.total }}</span>
+          </div>
+        </div>
+    <div class="col-md-4">
+      <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.price'|translate}}</span>
+        <span class="h3">{{ data?.vendor_total.subtotal }}</span>
+      </div>
+    </div>
+    <!-- <div class="col-md-3">
+      <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.Payment'|translate}}</span>
+        <p class="h3">{{ data?.payment_status }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.Status'|translate}}</span>
+        <span class="h3">{{ data?.order_status }}</span>
+      </div>
+    </div> -->
+    <div class="col-md-4">
+      <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.shipping amount'|translate}}</span>
+        <p class="h3">{{ data?.vendor_total.shipping_amount }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row my-4" [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">
+    <div class="col-md-4">
+      <div class="shadow text-center py-4 h-100  rounded-3 flex-column d-flex">
+        <span>{{'dashboard.tax fee'|translate}}</span>
+        <p class="h3">{{ data?.vendor_total.tax_fee }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="shadow text-center py-4 h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.service fee'|translate}}</span>
+        <p class="h3">{{ data?.vendor_total.service_fee }}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="shadow text-center py-4  h-100 rounded-3 flex-column d-flex">
+        <span>{{'dashboard.discount'|translate}}</span>
+        <p class="h3">{{ data?.vendor_total.saved }}</p>
+      </div>
+    </div>
+  </div>
+  <p-table #dt2 [value]="products" styleClass="p-datatable-striped" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30]" [first]="first" [showCurrentPageReport]="true" dataKey="id" [rowHover]="true"
+     [filterDelay]="0" currentPageReportTemplate="{{
+                'dashboard.SHOWING_ENTRIES' | translate:{
+                    first: dt2.first,
+                    last: (dt2.rows ? (dt2.first! + (dt2.rows - 1)) : 0),
+                    totalRecords: dt2.totalRecords
+                }
+            }}">
+    <ng-template pTemplate="header">
+      <tr class="text-capitalize">
+        <th>{{'dashboard.product'|translate}}</th>
+        <th>{{'dashboard.ProductName'|translate}}</th>
+        <th>{{'dashboard.Price EGP'|translate}}
+        </th>
+        <th>{{'dashboard.Price AED'|translate}}
+        </th>
+        <th>{{'dashboard.Category'|translate}}</th>
+        <th>{{'home.Brands'|translate}}</th>
+        <th>{{'dashboard.Date'|translate}}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>
+          <!-- <img [src]="order.product.image" [alt]="order.product.title" class="rounded-5" width="70" height="70" /> -->
+          <img [src]="(order.product.image.length > 0 ? order.product.image : './assets/placeholder/placeholder2.jpg')"
+            defaultImage="./assets/placeholder/placeholder2.jpg" [useSrcset]="true" [lazyLoad]="order.product.image"
+            [alt]="order.product.title" class="rounded-5" width="70" height="70" (error)="order.product.image = './assets/placeholder/placeholder2.jpg'" />
+        </td>
+        <td>
+          <span class="fs-6 fw-bold">{{ order.product.title }}</span>
+        </td>
+        <td>
+          {{order.product.price_EGP}}
+        </td>
+        <td>
+          {{order.product.price_AED}}
+        </td>
+        <td>
+          {{order.product.category.title}}
+        </td>
+        <td>
+          {{order.product.brand.title}}
+        </td>
+        <td>
+          {{order.product.date|date:'EEEE, MMMM d, y, h:mm:ss a'}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<ng-template #notload>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <img src="./assets/placeholder/loading.gif" width="100px" alt="">
+  </div>
+</ng-template>

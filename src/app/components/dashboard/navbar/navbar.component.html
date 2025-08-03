@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg shadow-lg p-3" [dir]="isArabic() ? 'rtl' : 'ltr'">
+    <div class="container">
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+            <ul class="navbar-nav mb-2 mb-lg-0 gap-2"  [ngClass]="isArabic()?'me-auto':'ms-auto'">
+                <div class="position-relative p-0 d-flex align-items-center lang-drop">
+                    <div class="selected-lang" [dir]="isArabic() ? 'rtl' : 'ltr'">
+                        <span [ngClass]="getIconClass(selectedLanguage)" class="fis fs-5"></span> {{ 'lang.' +
+                        selectedLanguage | translate }}
+                    </div>
+                    <ul class="dropdown-lang shadow p-2 rounded-2" [dir]="isArabic() ? 'rtl' : 'ltr'" [ngStyle]="isArabic() ? { 'left': 'auto' } : { 'left': '0' }"
+>
+                        <li (click)="selectLanguage('English'); changeCurrentLang('en')"
+                            class="d-flex align-items-center gap-2 fs-6 cursor-pointer p-1">
+                            <span class="fis fi fi-gb-eng fs-5"></span> {{'lang.English'|translate}}
+                        </li>
+                        <li (click)="selectLanguage('Arabic'); changeCurrentLang('ar')"
+                            class="d-flex align-items-center gap-2 fs-6 cursor-pointer p-1">
+                            <span class="fis fi fi-eg fs-5"></span> {{'lang.Arabic'|translate}}
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+        <!-- </div> -->
+    </div>
+</nav>

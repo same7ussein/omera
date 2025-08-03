@@ -1,0 +1,183 @@
+<div *ngIf="!homeloading else notload">
+    <div *ngFor="let item of HomeData">
+        <div class="row row-container p-3" [dir]="isArabic()?'rtl':'ltr'" [lang]="isArabic()? 'ar':'en'">
+            <div class="col-md-4">
+                <div class="single_quick_activity">
+                    <div class="count_content">
+                        <p>{{'dashboard.Products'|translate}}</p>
+                        <h3><span class="counter">{{item.products}}</span> </h3>
+                    </div>
+                    <!-- <a href="#" class="notification_btn">Today</a> -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="single_quick_activity">
+                    <div class="count_content">
+                        <p>{{'dashboard.num Orders'|translate}}</p>
+                        <h3><span class="counter">{{item.orders}}</span> </h3>
+                    </div>
+                    <!-- <a href="#" class="notification_btn">Today</a> -->
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="single_quick_activity">
+                    <div class="count_content">
+                        <p>{{'dashboard.Revenue'|translate}}</p>
+                        <h3><span class="counter">{{item.revenue + ' ' + ('currency.EGP' | translate)}}</span> </h3>
+                    </div>
+                    <!-- <a href="#" class="notification_btn">Today</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+            <p-table #dt2 [value]="products" styleClass="p-datatable-striped" [paginator]="true" [loading]="loading" [rows]="25"
+        [globalFilterFields]="['title', 'category']" [rowsPerPageOptions]="[25, 50, 100]" [first]="first"
+        [showCurrentPageReport]="true" dataKey="id" [rowHover]="true" [filterDelay]="0" currentPageReportTemplate="{{
+        'dashboard.SHOWING_ENTRIES' | translate:{
+            first: dt2.first,
+            last: (dt2.rows ? (dt2.first! + (dt2.rows - 1)) : 0),
+            totalRecords: dt2.totalRecords
+        }
+    }}" [dir]="isArabic()?'rtl':'ltr'" >
+
+    <p-table #dt2 [value]="products" styleClass="p-datatable-striped" [loading]="loading"
+        [globalFilterFields]="['title', 'category']" [showCurrentPageReport]="true" dataKey="id" [rowHover]="true"
+        [scrollable]="true" scrollHeight="500px" [filterDelay]="0" [dir]="isArabic()?'rtl':'ltr'">
+     -->
+    <p-table #dt2 [value]="products" styleClass="p-datatable-striped" [paginator]="true" [loading]="loading" [rows]="25"
+        [globalFilterFields]="['title', 'category']" [rowsPerPageOptions]="[25, 50, 100]" [first]="first"
+        [showCurrentPageReport]="true" dataKey="id" [rowHover]="true" [filterDelay]="0" currentPageReportTemplate="{{
+                'dashboard.SHOWING_ENTRIES' | translate:{
+                    first: dt2.first,
+                    last: (dt2.rows ? (dt2.first! + (dt2.rows - 1)) : 0),
+                    totalRecords: dt2.totalRecords
+                }
+            }}" >
+        <ng-template pTemplate="caption">
+            <div class="d-flex justify-content-between" [dir]="isArabic()?'rtl':'ltr'">
+                <div class="d-flex gap-2">
+                    <button type="button" pButton pRipple icon="pi pi-file" (click)="exportCSV()" class="mr-2"
+                        pTooltip="CSV" tooltipPosition="bottom"></button>
+                    <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                        class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+
+                    <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPDF()"
+                        class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom"
+                        *ngIf="!isArabic()"></button>
+                </div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" class="p-inputtext p-component p-element" [(ngModel)]="filter"
+                        (input)="dt2.filterGlobal(filter, 'contains')" [placeholder]="'dashboard.Search'|translate"
+                        [lang]="isArabic()? 'ar':'en'" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" >
+         
+                <tr [lang]="isArabic()? 'ar':'en'" [dir]="isArabic()?'rtl':'ltr'">
+                    <th>{{'dashboard.image'|translate}}</th>
+                    <th class="text-center" pSortableColumn="title" style="min-width:10rem">
+                        {{'dashboard.Name'|translate}} <p-sortIcon field="title"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="price_EGP" style="min-width:11rem">
+                        <div class="d-flex justify-content-between align-items-center">
+                            {{'dashboard.Price EGP'|translate}}
+                            <p-sortIcon field="price_EGP">
+                            </p-sortIcon>
+                            <p-columnFilter type="numeric" field="price_EGP" display="menu" currency="EGP">
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="price_AED" style="min-width:11rem">
+                        <div class="d-flex justify-content-between align-items-center">
+                            {{'dashboard.Price AED'|translate}}
+                            <p-sortIcon field="price_AED">
+                            </p-sortIcon>
+                            <p-columnFilter type="numeric" field="price_AED" display="menu" currency="AED">
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                    <th pSortableColumn="category" style="min-width:10rem">
+                        {{'dashboard.Category'|translate}}
+                        <p-sortIcon field="category.title"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="stock_qty" style="min-width:7rem">
+                        <div class="d-flex justify-content-between align-items-center">
+                            {{'dashboard.Quantity'|translate}}
+                            <p-sortIcon field="stock_qty">
+                            </p-sortIcon>
+                            <p-columnFilter type="numeric" field="stock_qty" display="menu">
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                
+                    <th pSortableColumn="rating">
+                        <div class="d-flex justify-content-between align-items-center">
+                            {{'dashboard.Rating'|translate}}
+                            <p-sortIcon field="rating">
+                            </p-sortIcon>
+                            <p-columnFilter type="numeric" field="rating" display="menu" max="5">
+                            </p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:7rem">
+                        <div class="d-flex align-items-center">
+                            {{'dashboard.Stock'|translate}}
+                            <p-columnFilter type="boolean" field="in_stock" display="menu"></p-columnFilter>
+                        </div>
+                    </th>
+                    <th style="min-width:7rem">{{'dashboard.Action'|translate}}</th>
+                </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+      
+            <tr [dir]="isArabic()?'rtl':'ltr'">
+                <td class="text-center">
+                    <img [src]="(product.image.length > 0 ? product.image : './assets/placeholder/placeholder2.jpg')"
+                        defaultImage="./assets/placeholder/placeholder2.jpg" [useSrcset]="true" [lazyLoad]="product.image"
+                        [alt]="product.title" width="50" height="50"
+                        (error)="product.image = './assets/placeholder/placeholder2.jpg'" />
+                </td>
+                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.title }}</td>
+                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_EGP + ' ' + ('currency.EGP' |
+                    translate) }}</td>
+                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_AED + ' ' + ('currency.AED' |
+                    translate) }}</td>
+            
+                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.category }}</td>
+                <td class="text-center">{{ product.stock_qty }}</td>
+                <td class="text-center">
+                    <div class="d-flex gap-2 align-items-center">
+                        <i [class.rating-color]="rate <=(product.product_rating|converttonumber) " *ngFor="let rate of [1,2,3,4,5]"
+                            class="fa-solid fa-star"></i>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <i class="pi"
+                        [ngClass]="{ 'text-green-500 pi-check-circle': product.in_stock, 'text-red-500 pi-times-circle': !product.in_stock }"></i>
+                </td>
+                <td class="text-center">
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-primary" [routerLink]="['/product/details',product.slug ,productCurrency]"><i
+                                class="fa-solid fa-eye"></i></button>
+                        <button class="btn btn-success" [routerLink]="['/dashboard/addproduct',product.pid]"><i
+                                class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-danger" (click)="deleteProduct(product.pid)"><i
+                                class="fa-solid fa-trash"></i></button>
+            
+                    </div>
+                </td>
+            </tr>
+     
+        </ng-template>
+
+    </p-table>
+</div>
+<ng-template #notload>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <img src="./assets/placeholder/loading.gif" width="100px" alt="">
+    </div>
+</ng-template>
