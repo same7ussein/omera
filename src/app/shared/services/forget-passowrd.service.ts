@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ForgetPassowrdService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = environment.baseURL;
   constructor(private _HttpClient: HttpClient) {}
 
   passwordreset(email: FormData): Observable<any> {

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class WishlistService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = environment.baseURL;
   wishlistNumber:BehaviorSubject<number> = new BehaviorSubject(0);
   constructor(private _HttpClient: HttpClient) {}
 

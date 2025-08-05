@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AdminDashboardService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = environment.baseURL;
   constructor(private _HttpClient: HttpClient) {}
   getHomeData(vendorId: number): Observable<any> {
     return this._HttpClient.get(
