@@ -1,21 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminDashboardService {
+  private baseUrl = environment.baseUrl;
   constructor(private _HttpClient: HttpClient) {}
   getHomeData(vendorId: number): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor/stats/${vendorId}/`
+      `${this.baseUrl}/v1/vendor/stats/${vendorId}/`
     );
   }
 
   getAdminProduct(vendorId: number, lang: string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor/products/${vendorId}/`,
+      `${this.baseUrl}/v1/vendor/products/${vendorId}/`,
       {
         headers: {
           'Accept-Language': lang,
@@ -26,7 +28,7 @@ export class AdminDashboardService {
 
   getAllOrders(vendorId: number, lang: string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor/orders/${vendorId}/`,
+      `${this.baseUrl}/v1/vendor/orders/${vendorId}/`,
       {
         headers: {
           'Accept-Language': lang,
@@ -37,7 +39,7 @@ export class AdminDashboardService {
 
   addProduct(productData: any): Observable<any> {
     return this._HttpClient.post(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-product-create/`,
+      `${this.baseUrl}/v1/vendor-product-create/`,
       productData
     );
   }
@@ -50,7 +52,7 @@ export class AdminDashboardService {
     vendorToken: any
   ): Observable<any> {
     return this._HttpClient.patch(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productDetail-update/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productDetail-update/${vendorId}/${productId}/`,
       productData,
       {
         headers: {
@@ -67,7 +69,7 @@ export class AdminDashboardService {
     vendorToken: any
   ): Observable<any> {
     return this._HttpClient.patch(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productGallery-update/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productGallery-update/${vendorId}/${productId}/`,
       productData,
       {
         headers: {
@@ -90,7 +92,7 @@ export class AdminDashboardService {
       body: data,
     };
     return this._HttpClient.delete(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productGallery-delete/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productGallery-delete/${vendorId}/${productId}/`,
       options
     );
   }
@@ -102,7 +104,7 @@ export class AdminDashboardService {
     vendorToken: any
   ): Observable<any> {
     return this._HttpClient.patch(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productSpecification-update/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productSpecification-update/${vendorId}/${productId}/`,
       productData,
       {
         headers: {
@@ -125,7 +127,7 @@ export class AdminDashboardService {
       body: data,
     };
     return this._HttpClient.delete(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productSpecification-delete/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productSpecification-delete/${vendorId}/${productId}/`,
       options
     );
   }
@@ -137,7 +139,7 @@ export class AdminDashboardService {
     vendorToken: any
   ): Observable<any> {
     return this._HttpClient.patch(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productColor-update/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productColor-update/${vendorId}/${productId}/`,
       productData,
       {
         headers: {
@@ -160,7 +162,7 @@ export class AdminDashboardService {
       body: data,
     };
     return this._HttpClient.delete(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productColor-delete/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productColor-delete/${vendorId}/${productId}/`,
       options
     );
   }
@@ -172,7 +174,7 @@ export class AdminDashboardService {
     vendorToken: any
   ): Observable<any> {
     return this._HttpClient.patch(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productSize-update/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productSize-update/${vendorId}/${productId}/`,
       productData,
       {
         headers: {
@@ -195,19 +197,19 @@ export class AdminDashboardService {
     };
 
     return this._HttpClient.delete(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-productSize-delete/${vendorId}/${productId}/`,
+      `${this.baseUrl}/v1/vendor-productSize-delete/${vendorId}/${productId}/`,
       options
     );
   }
 
   deleteProduct(vendorId: number, productId: any): Observable<any> {
     return this._HttpClient.delete(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-product-delete/${vendorId}/${productId}/`
+      `${this.baseUrl}/v1/vendor-product-delete/${vendorId}/${productId}/`
     );
   }
   getOrderDetails(id: number, Oid: string, lang: string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor/orders/${id}/${Oid}/`,
+      `${this.baseUrl}/v1/vendor/orders/${id}/${Oid}/`,
       {
         headers: {
           'Accept-Language': lang,
@@ -217,7 +219,7 @@ export class AdminDashboardService {
   }
   getProductDetails(vendorId: number, productId: string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/vendor-product-update/${vendorId}/${productId}/`
+      `${this.baseUrl}/v1/vendor-product-update/${vendorId}/${productId}/`
     );
   }
 }

@@ -2,14 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private baseUrl = environment.baseUrl;
   constructor(private _HttpClient: HttpClient) {}
 
-  userInfo:any; 
+  userInfo:any;
 
   decodeToken(){
     const encode = localStorage.getItem('eToken')
@@ -24,7 +26,7 @@ export class AuthService {
 
   register(formData: FormData,lang:string): Observable<any> {
     return this._HttpClient.post(
-      `https://levado-ecommerce-api.onrender.com/api/v1/user/register/`,
+      `${this.baseUrl}/v1/user/register/`,
       formData,
       {
         headers: {
@@ -36,7 +38,7 @@ export class AuthService {
 
   login(formData: FormData,lang:string): Observable<any> {
     return this._HttpClient.post(
-      `https://levado-ecommerce-api.onrender.com/api/v1/user/login/`,
+      `${this.baseUrl}/v1/user/login/`,
       formData,
       {
         headers: {

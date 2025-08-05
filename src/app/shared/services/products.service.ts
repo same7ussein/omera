@@ -2,17 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
+  private baseUrl = environment.baseUrl;
   constructor(
     private _HttpClient: HttpClient,
   ) {}
   getPopularProduct(currency: string,lang:string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/product-popular/${currency}/`,
+      `${this.baseUrl}/v1/product-popular/${currency}/`,
       {
         headers: {
           'Accept-Language':lang
@@ -23,7 +26,7 @@ export class ProductsService {
 
   getBestSeller(currency: string,lang:string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/product-bestseller/${currency}/`,
+      `${this.baseUrl}/v1/product-bestseller/${currency}/`,
       {
         headers: {
           'Accept-Language': lang,
@@ -33,7 +36,7 @@ export class ProductsService {
   }
   getProductDetails(currency: string, slug: string , lang:string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/product/${currency}/${slug}/`,
+      `${this.baseUrl}/v1/product/${currency}/${slug}/`,
       {
         headers:{
           'Accept-Language':lang
@@ -43,7 +46,7 @@ export class ProductsService {
   }
   getAllCategory(lang:string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/category/`,
+      `${this.baseUrl}/v1/category/`,
       {
         headers: {
           'Accept-Language':lang
@@ -57,13 +60,13 @@ export class ProductsService {
     category: any[] = [],
     rangePrice: number[] = [],
     selectedBrands: any[] = [],
-    ratingValue: number = 1,
+    ratingValue: number = 0,
     page: number = 1,
     currency: string = '',
     lang:string
   ): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/productss/${currency}/?brand_ids=${selectedBrands}&category_ids=${category}&page=${page}&price=${rangePrice}&rating=${ratingValue}&title=${title}`,
+      `${this.baseUrl}/v1/productss/${currency}/?brand_ids=${selectedBrands}&category_ids=${category}&page=${page}&price=${rangePrice}&rating=${ratingValue}&title=${title}`,
       {
         headers: {
           'Accept-Language': lang,
@@ -76,7 +79,7 @@ export class ProductsService {
 
   getAllBrands(lang:string): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/brand/`,
+      `${this.baseUrl}/v1/brand/`,
       {
         headers: {
           'Accept-Language': lang,
@@ -89,13 +92,13 @@ export class ProductsService {
 
   AddReview(data: FormData): Observable<any> {
     return this._HttpClient.post(
-      `https://levado-ecommerce-api.onrender.com/api/v1/reviews/`,
+      `${this.baseUrl}/v1/reviews/`,
       data
     );
   }
   getReview(productId: number): Observable<any> {
     return this._HttpClient.get(
-      `https://levado-ecommerce-api.onrender.com/api/v1/reviews/${productId}/`
+      `${this.baseUrl}/v1/reviews/${productId}/`
     );
   }
 }
