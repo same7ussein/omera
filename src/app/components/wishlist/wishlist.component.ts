@@ -6,17 +6,17 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { jwtDecode } from 'jwt-decode';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { ToastrService } from 'ngx-toastr';
-import { Decodetoken } from 'src/app/shared/interfaces/decodetoken';
 import { Products } from 'src/app/shared/interfaces/products';
 import { Wishlist } from 'src/app/shared/interfaces/wishlist';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { WishlistService } from 'src/app/shared/services/wishlist.service';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [CommonModule, RouterLink, LazyLoadImageModule, TranslateModule ],
+  imports: [CommonModule, RouterLink, LazyLoadImageModule, TranslateModule, LoadingComponent],
   templateUrl: './wishlist.component.html',
   styleUrls: ['./wishlist.component.scss'],
 })

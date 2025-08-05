@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { RouterModule } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-orders',
@@ -27,6 +28,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
     TooltipModule,
     RouterModule,
     TranslateModule,
+    LoadingComponent
   ],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss'],

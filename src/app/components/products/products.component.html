@@ -1,12 +1,12 @@
-<div class="image" *ngIf="render">
+<!-- <div class="image">
     <h2>
         <ng-container *ngFor="let categoryName of selectedCategoryFilterNames; let isLast = last">
             {{ categoryName }}
             <span *ngIf="!isLast">, </span>
         </ng-container>
     </h2>
-</div>
-<section [dir]="isArabic() ? 'rtl' : 'ltr'">
+</div> -->
+<section>
     <div>
         <button class="filterButton rounded-3 py-1 mx-auto my-3" type="button"
             (click)="showFilterlist(Filterlist)">{{'products.Filter' | translate}} <i
@@ -20,10 +20,10 @@
                         (ngModelChange)="onfilterChange()">
                 </div>
                 <div [class.d-none]="categoryId">
-                    <h2 class="h4 border-bottom pb-2" [ngClass]="isArabic() ? 'text-end' : 'text-start'">
+                    <h2 class="h4 border-bottom pb-2">
                         {{'products.Categories' | translate}}</h2>
                     <div class="d-flex flex-column gap-3 "
-                        [ngClass]="isArabic() ? 'align-items-start' : 'align-items-end'">
+                        >
                         <div *ngFor="let category of categories" class="field-checkbox">
                             <p-checkbox class="cursor-pointer" [label]="category.name" name="group"
                                 [value]="category.key" [(ngModel)]="selectedCategories"
@@ -31,97 +31,21 @@
                                 (ngModelChange)="onfilterChange()" ngmode>
                             </p-checkbox>
                         </div>
-                        <!-- <div class="form-check" *ngFor="let category of categories">
-                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" id="{{category.key}}"
-                                [checked]="selectedCategories.includes(category.key)"
-                                (change)="onCategoryCheckboxChange(category.key, $event)">
-                            <label class="cursor-pointer" for="{{category.key}}">{{
-                                category.name }}</label>
-                        </div> -->
                     </div>
                 </div>
                 <div [class.d-none]="brandId">
-                    <h2 class="h4 border-bottom mt-3 pb-2" [ngClass]="isArabic() ? 'text-end' : 'text-start'">
+                    <h2 class="h4 border-bottom mt-3 pb-2">
                         {{'products.Brands' | translate}}</h2>
                     <div class="d-flex flex-column gap-3"
-                        [ngClass]="isArabic() ? 'align-items-start' : 'align-items-end'">
+                        >
                         <div *ngFor="let brand of brands" class="field-checkbox">
                             <p-checkbox class="cursor-pointer" [label]="brand.name" name="group" [value]="brand.key"
                                 [(ngModel)]="selectedBrands" (ngModelChange)="onfilterChange()"></p-checkbox>
                         </div>
-                        <!-- <div class="form-check" *ngFor="let brand of brands">
-                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" id="{{brand.key}}"
-                                [checked]="selectedBrands.includes(brand.key)" (change)="onBrandCheckboxChange(brand.key, $event)">
-                            <label class="cursor-pointer" for="{{brand.key}}">{{
-                                brand.name }}</label>
-                        </div> -->
                     </div>
                 </div>
-                <h2 class="h4 mt-3 border-bottom pb-2" [ngClass]="isArabic() ? 'text-end' : 'text-start'">
+                <h2 class="h4 mt-3 border-bottom pb-2" >
                     {{'products.Filter By' | translate}}</h2>
-                <div class="d-flex gap-3 mb-3 align-items-center">
-                    <h3 class="h6">{{'products.Price' | translate}}</h3>
-                    <button class="btn-main" (click)="onfilterChange()"><i class="fa-solid fa-rotate"></i></button>
-                </div>
-                <p-slider [(ngModel)]="rangeValues" [min]="100" [max]="5000" [range]="true"></p-slider>
-                <!-- Display range -->
-                <div class="range-label my-3" [ngClass]="isArabic() ? 'text-end' : 'text-start'">
-                    <p><strong>{{'products.Range' | translate}}</strong> : {{rangeValues[0] + '
-                        '}}{{'currency.'+this.currency|translate}} - {{rangeValues[1] + '
-                        '}}{{'currency.'+this.currency|translate}}</p>
-                </div>
-                <h2 class="h4 my-3 border-bottom pb-2" [ngClass]="isArabic() ? 'text-end' : 'text-start'">
-                    {{'products.Rating' | translate}}</h2>
-                <p-rating [(ngModel)]="Ratingvalue" [cancel]="false" (ngModelChange)="onfilterChange()"></p-rating>
-                <button class="reset-btn d-block mt-3" (click)="resetFilters()">{{'products.Reset All' |
-                    translate}}</button>
-            </div>
-        </ul>
-    </div>
-
-    <div class="container " *ngIf="render">
-        <div class="row g-5 align-items-center py-5" [class.align-items-center]="allProducts.length==0">
-            <div class="filter col-sm-4 col-lg-3 border-end pt-3">
-                <div class="position-relative">
-                    <i class="fa fa-solid fa-search search-icon"></i>
-                    <input type="text" class="form-control mb-2 search-input"
-                        placeholder="{{'products.Search' | translate}}......" [(ngModel)]="searchValue"
-                        (ngModelChange)="onfilterChange()">
-                </div>
-                <div [class.d-none]="categoryId">
-                    <h2 class="h4 border-bottom pb-2">{{'products.Categories' | translate}}</h2>
-                    <div class="d-flex flex-column gap-3">
-                        <div *ngFor="let category of categories" class="field-checkbox">
-                            <p-checkbox class="cursor-pointer" [label]="category.name" name="group"
-                                [value]="category.key" [(ngModel)]="selectedCategories"
-                                (onChange)="onCategoryFilterChange(selectedCategories)"
-                                (ngModelChange)="onfilterChange()" ngmode></p-checkbox>
-                        </div>
-                        <!-- <div class="form-check" *ngFor="let category of categories">
-                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" id="{{category.key}}"
-                                [checked]="selectedCategories.includes(category.key)"
-                                (change)="onCategoryCheckboxChange(category.key, $event)">
-                            <label class="cursor-pointer" for="{{category.key}}">{{
-                                category.name }}</label>
-                        </div> -->
-                    </div>
-                </div>
-                <div [class.d-none]="brandId">
-                    <h2 class="h4 border-bottom mt-3 pb-2">{{'products.Brands' | translate}}</h2>
-                    <div class="d-flex flex-column gap-3">
-                        <div *ngFor="let brand of brands" class="field-checkbox">
-                            <p-checkbox class="cursor-pointer" [label]="brand.name" name="group" [value]="brand.key"
-                                [(ngModel)]="selectedBrands" (ngModelChange)="onfilterChange()"></p-checkbox>
-                        </div>
-                        <!-- <div class="form-check" *ngFor="let brand of brands">
-                            <input type="checkbox" class="form-check-input me-2 cursor-pointer" id="{{brand.key}}"
-                                [checked]="selectedBrands.includes(brand.key)" (change)="onBrandCheckboxChange(brand.key, $event)">
-                            <label class="cursor-pointer" for="{{brand.key}}">{{
-                                brand.name }}</label>
-                        </div> -->
-                    </div>
-                </div>
-                <h2 class="h4 mt-3 border-bottom pb-2">{{'products.Filter By' | translate}}</h2>
                 <div class="d-flex gap-3 mb-3 align-items-center">
                     <h3 class="h6">{{'products.Price' | translate}}</h3>
                     <button class="btn-main" (click)="onfilterChange()"><i class="fa-solid fa-rotate"></i></button>
@@ -133,10 +57,62 @@
                         '}}{{'currency.'+this.currency|translate}} - {{rangeValues[1] + '
                         '}}{{'currency.'+this.currency|translate}}</p>
                 </div>
-                <h2 class="h4 my-3 border-bottom pb-2">{{'products.Rating' | translate}}</h2>
+                <h2 class="h4 my-3 border-bottom pb-2">
+                    {{'products.Rating' | translate}}</h2>
                 <p-rating [(ngModel)]="Ratingvalue" [cancel]="false" (ngModelChange)="onfilterChange()"></p-rating>
                 <button class="reset-btn d-block mt-3" (click)="resetFilters()">{{'products.Reset All' |
                     translate}}</button>
+            </div>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="row g-5 align-items-center py-5" [class.align-items-center]="allProducts.length==0">
+            <div class="filter col-sm-4 col-lg-3 border-end pt-3">
+               <div style="position: sticky; top: 0px;">
+                <div class="position-relative">
+                  <i class="fa fa-solid fa-search search-icon"></i>
+                  <input type="text" class="form-control mb-2 search-input"
+                      placeholder="{{'products.Search' | translate}}......" [(ngModel)]="searchValue"
+                      (ngModelChange)="onfilterChange()">
+              </div>
+              <div [class.d-none]="categoryId">
+                  <h2 class="h4 border-bottom pb-2">{{'products.Categories' | translate}}</h2>
+                  <div class="d-flex flex-column gap-3">
+                      <div *ngFor="let category of categories" class="field-checkbox">
+                          <p-checkbox class="cursor-pointer" [label]="category.name" name="group"
+                              [value]="category.key" [(ngModel)]="selectedCategories"
+                              (onChange)="onCategoryFilterChange(selectedCategories)"
+                              (ngModelChange)="onfilterChange()" ngmode></p-checkbox>
+                      </div>
+                  </div>
+              </div>
+              <div [class.d-none]="brandId">
+                  <h2 class="h4 border-bottom mt-3 pb-2">{{'products.Brands' | translate}}</h2>
+                  <div class="d-flex flex-column gap-3">
+                      <div *ngFor="let brand of brands" class="field-checkbox">
+                          <p-checkbox class="cursor-pointer" [label]="brand.name" name="group" [value]="brand.key"
+                              [(ngModel)]="selectedBrands" (ngModelChange)="onfilterChange()"></p-checkbox>
+                      </div>
+                  </div>
+              </div>
+              <h2 class="h4 mt-3 border-bottom pb-2">{{'products.Filter By' | translate}}</h2>
+              <div class="d-flex gap-3 mb-3 align-items-center">
+                  <h3 class="h6">{{'products.Price' | translate}}</h3>
+                  <button class="btn-main" (click)="onfilterChange()"><i class="fa-solid fa-rotate"></i></button>
+              </div>
+              <p-slider [(ngModel)]="rangeValues" [min]="100" [max]="5000" [range]="true"></p-slider>
+              <!-- Display range -->
+              <div class="range-label my-3">
+                  <p><strong>{{'products.Range' | translate}}</strong> : {{rangeValues[0] + '
+                      '}}{{'currency.'+this.currency|translate}} - {{rangeValues[1] + '
+                      '}}{{'currency.'+this.currency|translate}}</p>
+              </div>
+              <h2 class="h4 my-3 border-bottom pb-2">{{'products.Rating' | translate}}</h2>
+              <p-rating [(ngModel)]="Ratingvalue" [cancel]="false" (ngModelChange)="onfilterChange()"></p-rating>
+              <button class="reset-btn d-block mt-3" (click)="resetFilters()">{{'products.Reset All' |
+                  translate}}</button>
+               </div>
             </div>
             <div class="col-sm-8 col-lg-9 mx-auto" *ngIf="!productLoading">
                 <ng-container *ngIf="allProducts.length >0 else noProduct">
@@ -163,15 +139,15 @@
                                         class="w-100 default-image"
                                         (error)="item.image = './assets/placeholder/placeholder2.png'" />
                                     <div class="badge">
-                                        <span [lang]="isArabic()? 'ar':'en'">{{'home.new'|translate}}</span>
+                                        <span>{{'home.new'|translate}}</span>
                                     </div>
                                 </div>
                                 <div class="cursor-pointer"
                                     [routerLink]="['/product/details',item.slug , item.currency]">
-                                    <span [lang]="isArabic()? 'ar':'en'">{{item.category|uppercase}}</span>
-                                    <h6 [lang]="isArabic()? 'ar':'en'" class="title-cell">{{item.title}}</h6>
+                                    <span>{{item.category|uppercase}}</span>
+                                    <h6 class="title-cell">{{item.title}}</h6>
                                     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">
-                                        <p [lang]="isArabic()? 'ar':'en'">{{item.price + '
+                                        <p>{{item.price + '
                                             '}}{{'currency.'+item.currency|translate}}</p>
                                         <div>
                                             <i [class.rating-color]="rate <=item.rating"
@@ -241,16 +217,12 @@
             </div>
             <!-- loading product -->
             <div class="col-sm-8 col-lg-9 text-center py-5" *ngIf="productLoading">
-                <img src="./assets/placeholder/loading.gif" width="100px" alt="loading">
+                <app-loading></app-loading>
             </div>
         </div>
 
     </div>
 </section>
-<!-- global loading -->
-<!-- <div class="text-center py-5" *ngIf="productLoading">
-    <img src="./assets/placeholder/loading.gif" width="100px" alt="loading">
-</div> -->
 
 <!-- alert user should sign in -->
 <div #layer class="layerLogin d-none">

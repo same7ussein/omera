@@ -117,7 +117,8 @@ h2 {
 
   height: 10px;
   border-radius: 100px;
-  width: 350px;
+  // width: 350px;
+  min-width: 200px;
 }
 .rate-box .progress-bar  {
   //background-color: #ffc908;

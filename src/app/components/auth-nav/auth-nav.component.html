@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-lg">
     <div class="container">
-        <img src="./assets/Logo svg.svg" width="120" alt="logo">
+        <img src="./assets/logo.svg" width="100"  alt="logo">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,28 +9,13 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" routerLink="login"
-                        routerLinkActive="active-link">{{'account.Login' | translate}}</a>
+                        routerLinkActive="active-link">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" routerLink="register"
-                        routerLinkActive="active-link">{{'account.signup'|translate}}</a>
+                        routerLinkActive="active-link">SignUp</a>
                 </li>
-                <div class="position-relative p-0 d-flex align-items-center lang-drop">
-                    <div class="selected-lang" [dir]="isArabic() ? 'rtl' : 'ltr'">
-                        <span [ngClass]="getIconClass(selectedLanguage)" class="fis fs-5"></span> {{ 'lang.' +
-                        selectedLanguage | translate }}
-                    </div>
-                    <ul class="dropdown-lang shadow p-2 rounded-2" [dir]="isArabic() ? 'rtl' : 'ltr'">
-                        <li (click)="selectLanguage('English'); changeCurrentLang('en')"
-                            class="d-flex align-items-center gap-2 fs-6 cursor-pointer p-1">
-                            <span class="fis fi fi-gb-eng fs-5"></span> {{'lang.English'|translate}}
-                        </li>
-                        <li (click)="selectLanguage('Arabic'); changeCurrentLang('ar')"
-                            class="d-flex align-items-center gap-2 fs-6 cursor-pointer p-1">
-                            <span class="fis fi fi-eg fs-5"></span> {{'lang.Arabic'|translate}}
-                        </li>
-                    </ul>
-                </div>
+             
             </ul>
         </div>
     </div>

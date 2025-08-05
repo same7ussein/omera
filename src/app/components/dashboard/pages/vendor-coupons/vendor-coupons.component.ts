@@ -4,11 +4,12 @@ import { VendorCoponsService } from 'src/app/shared/services/vendor-copons.servi
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-vendor-coupons',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingComponent],
   templateUrl: './vendor-coupons.component.html',
   styleUrls: ['./vendor-coupons.component.scss'],
 })

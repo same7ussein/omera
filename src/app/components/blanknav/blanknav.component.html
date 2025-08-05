@@ -17,7 +17,7 @@
   <div class="navBarLg">
       <div class="secNavLarge navbar nav--content  p-0 my-2">
           <div class="container d-flex align-items-center justify-content-between">
-              <img src="./assets/logo red.svg" height="50" alt="logo">
+              <img src="./assets/logo.svg" width="100" alt="logo">
               <div class="w-50 search-input mx-auto">
                   <input type="text" class="form-control w-100" [placeholder]="'home.Search'|translate"
                       [(ngModel)]="search" [dir]="isArabic()?'rtl':'ltr'" (ngModelChange)="getAllProduct()"
@@ -33,7 +33,7 @@
                       </ng-container>
                       <ng-container *ngIf="searchLoading">
                           <div class="loading">
-                              <img src="./assets/placeholder/loading.gif" width="100px" alt="loading">
+                            <app-loading></app-loading>
                           </div>
                       </ng-container>
 
@@ -144,7 +144,7 @@
   </div>
   <nav class="navbar navbar-expand-lg navBarSm" [dir]="isArabic()?'rtl':'ltr'">
       <div class="container">
-          <img src="./assets/Logo svg.svg" width="120" alt="logo">
+          <img src="./assets/logo.svg" width="100"  alt="logo">
           <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
@@ -168,7 +168,7 @@
                               </ng-container>
                               <ng-container *ngIf="searchLoading">
                                   <div class="loading">
-                                      <img src="./assets/placeholder/loading.gif" width="100px" alt="loading">
+                                    <app-loading></app-loading>
                                   </div>
                               </ng-container>
 

@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AllProducts } from 'src/app/shared/interfaces/allproducts';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-blanknav',
@@ -23,6 +24,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
     RouterLinkActive,
     FormsModule,
     TranslateModule,
+    LoadingComponent
   ],
   templateUrl: './blanknav.component.html',
   styleUrls: ['./blanknav.component.scss'],

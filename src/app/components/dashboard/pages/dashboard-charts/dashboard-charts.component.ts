@@ -19,6 +19,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-dashboard-charts',
@@ -35,6 +36,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     ConverttonumberPipe,
     LazyLoadImageModule,
     TranslateModule,
+    LoadingComponent
   ],
   templateUrl: './dashboard-charts.component.html',
   styleUrls: ['./dashboard-charts.component.scss'],

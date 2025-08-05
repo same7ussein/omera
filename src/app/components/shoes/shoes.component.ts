@@ -23,6 +23,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BenefitsComponent } from '../benfits/benfits.component';
 import { TestimonialsComponent } from '../testimonials/testimonials.component';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-shoes',
@@ -37,7 +38,8 @@ import { TestimonialsComponent } from '../testimonials/testimonials.component';
     LazyLoadImageModule,
     TranslateModule,
     BenefitsComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+    LoadingComponent
   ],
   providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
   templateUrl: './shoes.component.html',

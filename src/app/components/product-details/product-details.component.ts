@@ -26,6 +26,7 @@ import { ReviewPrecentagePipe } from 'src/app/shared/pipes/review-precentage.pip
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-product-details',
@@ -40,7 +41,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     ReviewPrecentagePipe,
     RouterLink,
     LazyLoadImageModule,
-    TranslateModule
+    TranslateModule,
+    LoadingComponent
   ],
   templateUrl: './product-details.component.html',
   styles: [
@@ -227,11 +229,8 @@ export class ProductDetailsComponent implements OnInit {
       Object.keys(itemData.value).forEach((key) => {
         this.formData.append(key, itemData.get(key)?.value);
       });
-      this.formData.append('currency', this.currency);
       this._CartService.addToCart(this.formData).subscribe({
         next: (response) => {
-          console.log('add', response);
-          if (response.message == 'Cart Created Successfully' && this.currentLang == 'en') {
             this._CartService.getUserCart(userId, userId, this.currentLang).subscribe({
               next: (response) => {
                 this.itemsCartCount = response.length;
@@ -243,34 +242,7 @@ export class ProductDetailsComponent implements OnInit {
               },
             });
             this._ToastrService.success('Added To Cart');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'ltr'
-          }
-          else if (response.message == 'Cart Created Successfully' && this.currentLang == 'ar') {
-            this._CartService.getUserCart(userId, userId, this.currentLang).subscribe({
-              next: (response) => {
-                this.itemsCartCount = response.length;
-                console.log(response.length);
-                this._CartService.cartItemsNumber.next(this.itemsCartCount);
-              },
-              error: (err: HttpErrorResponse) => {
-                console.log(err);
-              },
-            });
-            this._ToastrService.success('تم إضافة المنتج في عربة التسوق');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'
-          }
-          else if (response.message == 'Cart Updated Successfully' && this.currentLang == 'en') {
-            this._ToastrService.success('Product Was Updated Successfully');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'ltr'
-          }
-          else if (response.message == 'Cart Updated Successfully' && this.currentLang == 'ar') {
-            this._ToastrService.success('تم تعديل المنتج في عربة التسوق');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'
-          }
+          
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);

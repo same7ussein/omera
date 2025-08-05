@@ -11,12 +11,13 @@ import { ProductCostPipe } from 'src/app/shared/pipes/product-cost.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonService } from 'src/app/shared/services/common.service';
+import { LoadingComponent } from '../loading/loading.component';
 
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, ProductCostPipe , TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, ProductCostPipe , TranslateModule, LoadingComponent],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss'],
 })
@@ -255,19 +256,18 @@ export class CartComponent implements OnInit {
           this.getUserCart();
           this.getCartSummary();
           if (res == null && this.currentLang =="en") {
-            this._ToastrService.error('The Product was removed');
+            this._ToastrService.success('The Product was removed');
             const toaster:any = document.querySelector(".overlay-container")
             toaster.style.direction = 'ltr'
           }
           else if(res == null && this.currentLang == "ar"){
-            this._ToastrService.error('تم حذف المنتج من عربة التسوق');
+            this._ToastrService.success('تم حذف المنتج من عربة التسوق');
             const toaster:any = document.querySelector(".overlay-container")
             toaster.style.direction = 'rtl'
           }
           this._CartService.getUserCart(this.userId, this.userId , this.currentLang).subscribe({
             next: (response) => {
               this.itemsCartCount = response.length;
-              console.log(response.length);
               this._CartService.cartItemsNumber.next(this.itemsCartCount);
             },
             error: (err: HttpErrorResponse) => {

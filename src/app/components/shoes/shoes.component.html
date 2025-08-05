@@ -1,5 +1,5 @@
 <section *ngIf="!loadingBest&&!loadingCategory&&!loadingPopular&&!loadingbrand else notload">
-    <app-mainslider></app-mainslider>
+    <app-main-slider></app-main-slider>
     <div class="container">
         <div class="category mt-4" *ngIf="category.length > 0">
                 <div class="d-flex justify-content-center gap-5 flex-wrap">
@@ -124,6 +124,6 @@
 </section>
 <ng-template #notload>
     <div class="d-flex justify-content-center align-items-center vh-100">
-        <img src="./assets/placeholder/loading.gif" width="100px" alt="">
+        <app-loading></app-loading>
     </div>
 </ng-template>

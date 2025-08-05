@@ -5,11 +5,12 @@ import { VendorNotiCount } from 'src/app/shared/interfaces/vendor-noti-count';
 import { VendorUnreadNoti } from 'src/app/shared/interfaces/vendor-unread-noti';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-vendor-notifications',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, LoadingComponent],
   templateUrl: './vendor-notifications.component.html',
   styleUrls: ['./vendor-notifications.component.scss'],
 })

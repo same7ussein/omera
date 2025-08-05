@@ -8,11 +8,12 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { LoadingComponent } from 'src/app/components/loading/loading.component';
 
 @Component({
   selector: 'app-order-details',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslateModule,LazyLoadImageModule],
+  imports: [CommonModule, TableModule, TranslateModule,LazyLoadImageModule, LoadingComponent],
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
 })

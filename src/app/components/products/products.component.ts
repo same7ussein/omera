@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from 'src/app/shared/services/products.service';
-import { Product } from 'src/app/shared/interfaces/products';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +17,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-products',
@@ -31,6 +31,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     RatingModule,
     LazyLoadImageModule,
     TranslateModule,
+    LoadingComponent
   ],
   providers: [provideAnimations()],
   templateUrl: './products.component.html',
@@ -58,14 +59,13 @@ export class ProductsComponent implements OnInit {
   categoryId: string = '';
   brandId: string = '';
   id: string = '';
-  currency: string = '';
+  currency: string = 'EGP';
   userId: any;
   formData = new FormData();
   wishlistData: Wishlist[] = [];
-  render: boolean = false;
   productLoading: boolean = true;
   filterLoading: boolean = true;
-  currentLang: string = '';
+  currentLang: string = 'en';
   constructor(
     private _ProductsService: ProductsService,
     private _ActivatedRoute: ActivatedRoute,
@@ -77,70 +77,10 @@ export class ProductsComponent implements OnInit {
     private translate: TranslateService
   ) {}
   ngOnInit(): void {
-    // get currecy value
-    this._CommonService.currency.subscribe({
-      next: (res) => {
-        this.currency = res.label;
-        console.log(this.currency);
-        this.getAllProducts();
-      },
-    });
 
-    this._ActivatedRoute.queryParams.subscribe((params) => {
-      const id = params['id'];
-      if (params['category']) {
-        this.categoryId = params['id'];
-        if (id) {
-          this.selectedCategories = [id];
-          console.log('selectedCategory', this.selectedCategories);
-          this.getAllBrands();
-          this.onfilterChange();
-        }
-      } else if (params['brand']) {
-        this.brandId = params['id'];
-        if (id) {
-          this.selectedBrands = [id];
-          console.log('selectedBrands', this.selectedCategories);
-          this._CommonService.currentLang.subscribe({
-            next: (res) => {
-              console.log(res);
-              this.currentLang = res;
-              this.getAllBrands();
-              this.getAllCategory();
-              this.getAllProducts();
-            },
-            error: (err: HttpErrorResponse) => {
-              console.log(err);
-            },
-          });
-          this.onfilterChange();
-        }
-      } else {
-        this._CommonService.currentLang.subscribe({
-          next: (res) => {
-            console.log(res);
-            this.currentLang = res;
-            this.getAllCategory();
-            this.getAllProducts();
-            this.getAllBrands()
-          },
-          error: (err: HttpErrorResponse) => {
-            console.log(err);
-          },
-        });
-        // this.getAllBrands();
-      }
-    });
-
-    this._ActivatedRoute.url.subscribe((segments) => {
-      const routePath = segments.map((segment) => segment.path).join('/');
-      if (routePath === 'products') {
-        this.getAllProducts();
-      } else {
-        this.allProducts = [];
-      }
-    });
-
+    this.getAllProducts();
+    this.getAllCategory();
+    this.getAllBrands();
     this.decodeToken();
     if (this.userId !== 'notLogin') {
       this.formData.append('user_id', this.userId.user_id.toString());
@@ -230,13 +170,11 @@ export class ProductsComponent implements OnInit {
         next: (res) => {
           this.allProducts = res.results;
           this.totalPages = res.num_pages;
-          this.render = true;
           this.productLoading = false;
           console.log(this.totalPages, 'TOTAL PAGES');
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
-          this.render = true;
         },
       });
   }

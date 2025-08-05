@@ -1,6 +1,6 @@
 .testimonial-section{
   background-color: antiquewhite;
-  padding:3.5rem;
+  padding:3.5rem 0;
 }
 .testimonial-text{
   width: 50%;
@@ -30,5 +30,15 @@ swiper-container::part(button-next),
 swiper-container::part(button-prev) {
   height:20px;
   color: rgb(82, 79, 79);
+  
+}
 
+@media screen and (max-width: 768px) {
+  swiper-container::part(button-prev){
+    left: 0;
+  }
+  
+  swiper-container::part(button-next){
+    right: 0;
+  }
 }
