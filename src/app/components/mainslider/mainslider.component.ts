@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
-  selector: 'app-mainslider',
+  selector: 'app-main-slider',
   standalone: true,
   imports: [CommonModule, CarouselModule],
   templateUrl: './mainslider.component.html',
@@ -24,6 +24,5 @@ export class MainsliderComponent {
     ],
   items: 1,
   nav: true,
-
   };
 }
