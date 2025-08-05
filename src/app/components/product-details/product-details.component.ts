@@ -98,7 +98,7 @@ export class ProductDetailsComponent implements OnInit {
         this.slug = params.get('slug');
         this.currency = params.get('currency');
         console.log(this.slug , this.currency , 'hoo');
-        
+
         this.getProductDetails()
       },
       error: (err: HttpErrorResponse) => {
@@ -163,10 +163,10 @@ export class ProductDetailsComponent implements OnInit {
     this._ProductsService.getProductDetails(this.currency, this.slug, this.currentLang).subscribe({
       next: (res) => {
         this.productDetails = res;
-        this.ratingCount = this.productDetails.product_rating.toFixed(1);
+        this.ratingCount = this.productDetails?.product_rating?.toFixed(1);
         console.log(this.productDetails);
-        this.images = this.productDetails.gallery;
-        this.images.unshift({ image: this.productDetails.image });
+        this.images = this.productDetails?.gallery;
+        this.images.unshift({ image: this.productDetails?.image });
         this.getAllReviews();
         this.loading = false;
       },

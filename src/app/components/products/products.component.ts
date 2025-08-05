@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
   allProducts: AllProducts[] = [];
   selectedCategories: string[] = [];
   rangeValues: number[] = [100, 3000];
-  Ratingvalue: number = 1;
+  Ratingvalue: number = 0;
   searchValue: string = '';
   selectedCategoryFilterNames: string[] = ['Products'];
   categories: any[] = [];
@@ -219,7 +219,7 @@ export class ProductsComponent implements OnInit {
       this.selectedCategories = [];
     }
     this.rangeValues = [100, 3000];
-    this.Ratingvalue = 1;
+    this.Ratingvalue = 0;
     this.searchValue = '';
     if ((this.currentLang = 'en')) {
       this.selectedCategoryFilterNames = ['Products'];
