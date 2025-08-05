@@ -102,7 +102,7 @@ export class AddeditproductComponent implements OnInit {
   inputsColors: any[] = [];
 
   inputsSizes: any[] = [];
-  vendorId: number = 0; 
+  vendorId: number = 0;
 
   imageUrl:string = ''
   update:boolean = false
@@ -111,9 +111,9 @@ export class AddeditproductComponent implements OnInit {
   productId:any
   currentLang:string = ''
 
-  // check update 
+  // check update
   productDetails_success_ubdated:boolean = false
-  // 
+  //
 
   @ViewChild('stepper') stepper: any; // Add ViewChild reference
 
@@ -133,24 +133,24 @@ export class AddeditproductComponent implements OnInit {
     this.getAllBrands()
 
 
-    
+
     if (localStorage.getItem('eToken')!==null) {
       console.log('eToken' , localStorage.getItem('eToken'));
       this.vendorToken = localStorage.getItem('eToken')
     }
-    
+
     this._AuthService.decodeToken();
-    this.vendorId = this._AuthService.userInfo?.vendor_id;    
+    this.vendorId = this._AuthService.userInfo?.vendor_id;
     console.log();
-    
-    
+
+
     console.log('input', this.inputsImages);
     this._ActivatedRoute.paramMap.subscribe({
       next:(param)=>{
         this.productId = param.get('id')
         if (this.productId !== null) {
           console.log('update0 0000');
-          
+
           this.update = true
            this._AdminDashboardService.getProductDetails(this.vendorId , this.productId).subscribe({
             next:(res)=>{
@@ -169,14 +169,14 @@ export class AddeditproductComponent implements OnInit {
               this.firstForm.get('stock_qty')?.setValue(res.stock_qty)
               this.productImageSrc = res.image
               this.imageUrl = res.image
-              
+
               console.log(this.inputsImages , 'inputsImages');
               console.log(this.specificationForm , 'specificationForm');
-             
+
             },
             error:(err)=>{
               console.log(err);
-              
+
             }
            })
         }
@@ -186,12 +186,12 @@ export class AddeditproductComponent implements OnInit {
       }
     })
   }
-// 
+//
 
  // Function to handle file input change
   onFileChange(event: any) {
     console.log(event , 'onFileChange=>event');
-    
+
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
@@ -206,17 +206,17 @@ export class AddeditproductComponent implements OnInit {
   firstForm: FormGroup = this._FormBuilder.group({
     image: [null],
     title_en: ['', Validators.required],
-    title_ar: ['', Validators.required],
+    title_ar: [''],
     description_en: ['', Validators.required],
-    description_ar: ['', Validators.required],
+    description_ar: [''],
     category: [null, Validators.required],
     brand: [null, Validators.required],
     price_EGP: [0, Validators.required],
-    price_AED: [0, Validators.required],
+    price_AED: [0],
     shipping_amount: [0, Validators.required],
     stock_qty: [0, Validators.required],
   });
- 
+
   getAllCategories(): void {
     this._ProductsService.getAllCategory(this.currentLang).subscribe({
       next: (res: any[]) => {
@@ -269,7 +269,7 @@ export class AddeditproductComponent implements OnInit {
         this.productTitleAr = 'أسم المنتج';
       }
     }
-   
+
   }
 
   addInput(type: any) {
@@ -285,21 +285,21 @@ export class AddeditproductComponent implements OnInit {
     this.specifications.push(this._FormBuilder.group({
       title_en: ['' , [Validators.required]],
       content_en: ['' , [Validators.required]],
-      title_ar: ['' , [Validators.required]],
-      content_ar: ['' , [Validators.required]]
+      title_ar: [''],
+      content_ar: ['']
     }));
   }
   addToColorsFormGroup() {
     this.colors.push(this._FormBuilder.group({
       name_en: ['' , [Validators.required]],
-      name_ar: ['' , [Validators.required]],
+      name_ar: ['' ],
       code: ['' , [Validators.required]]
     }));
   }
   addToSizesFormGroup() {
     this.sizes.push(this._FormBuilder.group({
       name_en: ['' , [Validators.required]],
-      name_ar: ['' , [Validators.required]],
+      name_ar: [''],
       price:[0]
     }));
   }
@@ -310,7 +310,7 @@ export class AddeditproductComponent implements OnInit {
 
     form.removeAt(index)
     console.log(form , 'form 2');
-    
+
     type.splice(index, 1);
   }
 
@@ -329,7 +329,7 @@ export class AddeditproductComponent implements OnInit {
   hello() {
     console.log(this.firstForm.value);
   }
-  
+
   onNextClick(): void {
     if (this.firstForm.valid && this.sizeForm.valid) {
       this.addProduct();
@@ -371,20 +371,20 @@ export class AddeditproductComponent implements OnInit {
     this.productThumbnailUrl = e.target.files[0];
   }
 
-  //  here i collect all product images 
+  //  here i collect all product images
 
   @ViewChildren('imageInput')
   imageInputs!:QueryList<any>
 
   collectProductImages(){
-   
+
     for (const input of this.imageInputs) {
       this.productImages.push(input.nativeElement.files[0]);
     }
     console.log(this.productImages , 'productImages');
-    
+
   }
-  // 
+  //
 
   addProduct() {
     let availability: Boolean = false;
@@ -436,20 +436,20 @@ export class AddeditproductComponent implements OnInit {
     for (let i = 0; i < this.specificationForm.value.specifications.length; i++) {
       formData.append(
         `specifications[${i}][title_en]`,
-        this.specificationForm.value.specifications[i].title_en 
+        this.specificationForm.value.specifications[i].title_en
       );
       formData.append(
         `specifications[${i}][content_en]`,
         this.specificationForm.value.specifications[i].content_en
-      );      
+      );
       formData.append(
         `specifications[${i}][title_ar]`,
-        this.specificationForm.value.specifications[i].title_ar 
+        this.specificationForm.value.specifications[i].title_ar
       );
       formData.append(
         `specifications[${i}][content_ar]`,
         this.specificationForm.value.specifications[i].content_ar
-      );      
+      );
     }
     for (let i = 0; i < this.colorForm.value.colors.length; i++) {
       formData.append(
@@ -527,25 +527,25 @@ export class AddeditproductComponent implements OnInit {
         this.productThumbnailUrl.name
       );
     }
-    
-    
+
+
       this._AdminDashboardService.updateProductDetails(this.vendorId , this.productId , formData , this.vendorToken).subscribe({
         next:(res)=>{
           console.log(res , 'updateProductDetails');
           if (res.message == "Product details have been updated successfully") {
-            this.productDetails_success_ubdated = true            
+            this.productDetails_success_ubdated = true
           }
           this.inputsImages = res.product.gallery
           console.log(this.inputsImages , 'imagesProsuct');
-          
+
           if(this.inputsImages.length == 0){
             this.inputsImages.push({images:{
               image: ['' , [Validators.required]],
             }
             })
           }
-          
-          // set inputsSpecifications values from Api response 
+
+          // set inputsSpecifications values from Api response
           this.inputsSpecifications = res.product.specification
           console.log(this.inputsSpecifications , 'inputsSpecifications');
           if (this.inputsSpecifications.length > 0) {
@@ -555,22 +555,22 @@ export class AddeditproductComponent implements OnInit {
             this.inputsSpecifications.push({specifications:{
               title_en: ['' , [Validators.required]],
               content_en: ['' , [Validators.required]],
-              title_ar: ['' , [Validators.required]],
-              content_ar: ['' , [Validators.required]]
+              title_ar: ['' , ],
+              content_ar: ['' , ]
             }
-              
+
             })
           }
           for (const spec of this.inputsSpecifications) {
             this.specifications.push(this._FormBuilder.group({
               title_en: [spec.title_en , [Validators.required]],
-              title_ar: [spec.title_ar , [Validators.required]],
+              title_ar: [spec.title_ar ],
               content_en: [spec.content_en , [Validators.required]],
-              content_ar: [spec.content_ar , [Validators.required]]
+              content_ar: [spec.content_ar ]
             }));
             console.log(this.specifications , 'specifications');
             console.log(this.inputsSpecifications , 'inputsSpecifications');
-            
+
           }
 
           // set inputsColors values from Api response
@@ -581,7 +581,7 @@ export class AddeditproductComponent implements OnInit {
           else if(this.inputsColors.length == 0){
             this.inputsColors.push({colors:{
               name_en: ['' , [Validators.required]],
-              name_ar: ['' , [Validators.required]],
+              name_ar: ['' ],
               code: ['' , [Validators.required]]
             }
             })
@@ -589,12 +589,12 @@ export class AddeditproductComponent implements OnInit {
           for (const color of this.inputsColors) {
             this.colors.push(this._FormBuilder.group({
               name_en: [color.name_en , [Validators.required]],
-              name_ar: [color.name_ar , [Validators.required]],
+              name_ar: [color.name_ar ],
               code: [color.color_code , [Validators.required]]
             }));
             console.log(this.colors , 'colors');
             console.log(this.inputsColors , 'inputsColors');
-            
+
           }
 
           // set inputsSizes values from Api response
@@ -605,23 +605,23 @@ export class AddeditproductComponent implements OnInit {
           else if(this.inputsSizes.length == 0){
             this.inputsSizes.push({sizes:{
               name_en: ['' , [Validators.required]],
-              name_ar: ['' , [Validators.required]]
+              name_ar: ['' ]
             }
             })
           }
           for (const size of this.inputsSizes) {
             this.sizes.push(this._FormBuilder.group({
               name_en: [size.name_en , [Validators.required]],
-              name_ar: [size.name_ar , [Validators.required]],
+              name_ar: [size.name_ar ],
             }));
             console.log(this.sizes , 'sizes');
             console.log(this.inputsSizes , 'inputsSizes');
-            
+
           }
         },
         error:(err)=>{
           console.log(err);
-          
+
         }
       })
     }
@@ -636,7 +636,7 @@ export class AddeditproductComponent implements OnInit {
       const gId:string = imagesArray[index].nativeElement.getAttribute('gid')
       this._Renderer2.setAttribute(element , 'disabled' , 'true')
       console.log(imagesArray[index].nativeElement);
-      
+
       if (image !== undefined && gId !== null) {
         console.log('UPDATE IMAGE');
         const formData = new FormData();
@@ -652,17 +652,17 @@ export class AddeditproductComponent implements OnInit {
               toaster.style.direction = 'ltr'
             }
             else if (res.message == "Gallery details have been updated successfully" && this.currentLang == 'ar') {
-              this._ToastrService.success('تم إضافة صورة المنتج بنجاح') 
+              this._ToastrService.success('تم إضافة صورة المنتج بنجاح')
               const toaster:any = document.querySelector(".overlay-container")
-              toaster.style.direction = 'rtl'                       
+              toaster.style.direction = 'rtl'
             }
           },
           error:(err)=>{
             console.log(err);
-            
+
           }
         })
-        
+
       }
       else if (image !== undefined && gId == null){
         console.log('ADD iMAGE');
@@ -672,11 +672,11 @@ export class AddeditproductComponent implements OnInit {
         this._AdminDashboardService.updateProductGalleryImage(this.vendorId , this.productId , formData , this.vendorToken).subscribe({
           next:(res)=>{
             console.log(res , 'add');
-            
+
           },
           error:(err)=>{
             console.log(err);
-            
+
           }
         })
       }
@@ -707,23 +707,23 @@ export class AddeditproductComponent implements OnInit {
       const formData = new FormData ()
         formData.append(
           `title_en`,
-          this.specificationForm.value.specifications[index].title_en 
+          this.specificationForm.value.specifications[index].title_en
         );
         formData.append(
           `content_en`,
           this.specificationForm.value.specifications[index].content_en
-        );      
+        );
         formData.append(
           `title_ar`,
-          this.specificationForm.value.specifications[index].title_ar 
+          this.specificationForm.value.specifications[index].title_ar
         );
         formData.append(
           `content_ar`,
           this.specificationForm.value.specifications[index].content_ar
-        );      
+        );
       if (spId !== undefined) {
-        
-        formData.append( `spid`, spId );      
+
+        formData.append( `spid`, spId );
         this._AdminDashboardService.updateProductSpecifications(this.vendorId , this.productId , formData , this.vendorToken).subscribe({
           next:(res)=>{
             console.log(res , 'updateSpec');
@@ -733,9 +733,9 @@ export class AddeditproductComponent implements OnInit {
               toaster.style.direction = 'ltr'
             }
             else if (res.message == "Specification have been updated successfully" && this.currentLang == 'ar') {
-              this._ToastrService.success('تم تحديث وصف المنتج بنجاح') 
+              this._ToastrService.success('تم تحديث وصف المنتج بنجاح')
               const toaster:any = document.querySelector(".overlay-container")
-              toaster.style.direction = 'rtl'                       
+              toaster.style.direction = 'rtl'
             }
           },
           error:(err)=>{
@@ -754,9 +754,9 @@ export class AddeditproductComponent implements OnInit {
               toaster.style.direction = 'ltr'
             }
             else if (res.message == "Specification have been updated successfully" && this.currentLang == 'ar') {
-              this._ToastrService.success('تم إضافة وصف المنتج بنجاح') 
+              this._ToastrService.success('تم إضافة وصف المنتج بنجاح')
               const toaster:any = document.querySelector(".overlay-container")
-              toaster.style.direction = 'rtl'                       
+              toaster.style.direction = 'rtl'
             }
           },
           error:(err)=>{
@@ -768,8 +768,8 @@ export class AddeditproductComponent implements OnInit {
     else{
       this._ToastrService.error('All Inputs Are Required')
     }
-   
-    
+
+
   }
   // SHOW SPEC-UPDATE-BTN
   displayUpdateBtn(updateBtnRef:any,Id:any){
@@ -791,9 +791,9 @@ export class AddeditproductComponent implements OnInit {
           toaster.style.direction = 'ltr'
         }
         else if (res.message == "Specification deleted successfully" && this.currentLang == 'ar') {
-          this._ToastrService.error('تم حذف وصف المنتج بنجاح') 
+          this._ToastrService.error('تم حذف وصف المنتج بنجاح')
           const toaster:any = document.querySelector(".overlay-container")
-          toaster.style.direction = 'rtl'                       
+          toaster.style.direction = 'rtl'
         }
       },
       error:(err)=>{
@@ -823,8 +823,8 @@ export class AddeditproductComponent implements OnInit {
         this.colorForm.value.colors[index].code
       );
       if (cId !== undefined) {
-        
-        formData.append( `color_cid`, cId );      
+
+        formData.append( `color_cid`, cId );
         this._AdminDashboardService.updateProductColor(this.vendorId , this.productId , formData , this.vendorToken).subscribe({
           next:(res)=>{
             console.log(res , 'updatecolor');
@@ -834,9 +834,9 @@ export class AddeditproductComponent implements OnInit {
               toaster.style.direction = 'ltr'
             }
             else if (res.message == "Color have been updated successfully" && this.currentLang == 'ar') {
-              this._ToastrService.success('تم تحديث لون المنتج بنجاح') 
+              this._ToastrService.success('تم تحديث لون المنتج بنجاح')
               const toaster:any = document.querySelector(".overlay-container")
-              toaster.style.direction = 'rtl'                       
+              toaster.style.direction = 'rtl'
             }
           },
           error:(err)=>{
@@ -855,9 +855,9 @@ export class AddeditproductComponent implements OnInit {
               toaster.style.direction = 'ltr'
             }
             else if (res.message == "Color have been updated successfully" && this.currentLang == 'ar') {
-              this._ToastrService.success('تم إضافة لون المنتج بنجاح') 
+              this._ToastrService.success('تم إضافة لون المنتج بنجاح')
               const toaster:any = document.querySelector(".overlay-container")
-              toaster.style.direction = 'rtl'                       
+              toaster.style.direction = 'rtl'
             }
           },
           error:(err)=>{
@@ -869,9 +869,9 @@ export class AddeditproductComponent implements OnInit {
     else{
       this._ToastrService.error('All Inputs Are Required')
     }
-   
-    
-  } 
+
+
+  }
   deleteProductColor(cid:string){
     const formData = new FormData ()
     if (cid !== undefined) {
@@ -885,9 +885,9 @@ export class AddeditproductComponent implements OnInit {
           toaster.style.direction = 'ltr'
         }
         else if (res.message == "Color deleted successfully" && this.currentLang == 'ar') {
-          this._ToastrService.error('تم حذف لون المنتج بنجاح') 
+          this._ToastrService.error('تم حذف لون المنتج بنجاح')
           const toaster:any = document.querySelector(".overlay-container")
-          toaster.style.direction = 'rtl'                       
+          toaster.style.direction = 'rtl'
         }
       },
       error:(err)=>{
@@ -896,7 +896,7 @@ export class AddeditproductComponent implements OnInit {
     })
     }
   }
-  
+
   // product Size
   updateProductSize(sId:string , index:number , updateSizeBtn:any){
     console.log(sId);
@@ -906,10 +906,10 @@ export class AddeditproductComponent implements OnInit {
     const formData = new FormData ()
     formData.append(`name_en`, this.sizeForm.value.sizes[index].name_en);
     formData.append(`name_ar`, this.sizeForm.value.sizes[index].name_ar);
-    
+
     if (sId !== undefined) {
-      
-      formData.append( `sid`, sId );      
+
+      formData.append( `sid`, sId );
       this._AdminDashboardService.updateProductSize(this.vendorId , this.productId , formData , this.vendorToken).subscribe({
         next:(res)=>{
           console.log(res , 'updatesize');
@@ -919,9 +919,9 @@ export class AddeditproductComponent implements OnInit {
             toaster.style.direction = 'ltr'
           }
           else if (res.message == "Size have been updated successfully" && this.currentLang == 'ar') {
-            this._ToastrService.success('تم تحديث مقاس المنتج بنجاح') 
+            this._ToastrService.success('تم تحديث مقاس المنتج بنجاح')
             const toaster:any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'                       
+            toaster.style.direction = 'rtl'
           }
         },
         error:(err)=>{
@@ -941,12 +941,12 @@ export class AddeditproductComponent implements OnInit {
 
           }
           else if (res.message == "Size have been updated successfully" && this.currentLang == 'ar') {
-            this._ToastrService.success('تم إضافة مقاس المنتج بنجاح') 
+            this._ToastrService.success('تم إضافة مقاس المنتج بنجاح')
             const toaster:any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'      
-                 
+            toaster.style.direction = 'rtl'
+
           }
-          
+
         },
         error:(err)=>{
           console.log(err);
@@ -957,9 +957,9 @@ export class AddeditproductComponent implements OnInit {
     else{
       this._ToastrService.error('All Inputs Are Required')
     }
-    
-    
-  } 
+
+
+  }
   deleteProductSize(sid:string){
     console.log(sid ,' sid');
     const formData = new FormData ()
@@ -974,9 +974,9 @@ export class AddeditproductComponent implements OnInit {
             toaster.style.direction = 'ltr'
           }
           else if (res.message == "Size deleted successfully" && this.currentLang == 'ar') {
-            this._ToastrService.error('تم حذف مقاس المنتج بنجاح') 
+            this._ToastrService.error('تم حذف مقاس المنتج بنجاح')
             const toaster:any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'                       
+            toaster.style.direction = 'rtl'
           }
         },
         error:(err)=>{
@@ -984,18 +984,18 @@ export class AddeditproductComponent implements OnInit {
         }
       })
     }
-  } 
+  }
 
   // update done
   checkUpdates(){
-    if ( this.productDetails_success_ubdated && this.currentLang == 'en') 
+    if ( this.productDetails_success_ubdated && this.currentLang == 'en')
       {
         this._ToastrService.success('Product Was Updated Successfully')
         const toaster:any = document.querySelector(".overlay-container")
         toaster.style.direction = 'ltr'
       }
     else if(this.productDetails_success_ubdated && this.currentLang == 'ar')  {
-      this._ToastrService.success('تم تحديث المنتج بنجاح') 
+      this._ToastrService.success('تم تحديث المنتج بنجاح')
       const toaster:any = document.querySelector(".overlay-container")
       toaster.style.direction = 'rtl'
     }

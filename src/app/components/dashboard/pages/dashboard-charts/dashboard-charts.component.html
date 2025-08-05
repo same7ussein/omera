@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <!-- 
+    <!--
             <p-table #dt2 [value]="products" styleClass="p-datatable-striped" [paginator]="true" [loading]="loading" [rows]="25"
         [globalFilterFields]="['title', 'category']" [rowsPerPageOptions]="[25, 50, 100]" [first]="first"
         [showCurrentPageReport]="true" dataKey="id" [rowHover]="true" [filterDelay]="0" currentPageReportTemplate="{{
@@ -76,7 +76,7 @@
             </div>
         </ng-template>
         <ng-template pTemplate="header" >
-         
+
                 <tr [lang]="isArabic()? 'ar':'en'" [dir]="isArabic()?'rtl':'ltr'">
                     <th>{{'dashboard.image'|translate}}</th>
                     <th class="text-center" pSortableColumn="title" style="min-width:10rem">
@@ -91,7 +91,7 @@
                             </p-columnFilter>
                         </div>
                     </th>
-                    <th pSortableColumn="price_AED" style="min-width:11rem">
+                    <!-- <th pSortableColumn="price_AED" style="min-width:11rem">
                         <div class="d-flex justify-content-between align-items-center">
                             {{'dashboard.Price AED'|translate}}
                             <p-sortIcon field="price_AED">
@@ -99,11 +99,11 @@
                             <p-columnFilter type="numeric" field="price_AED" display="menu" currency="AED">
                             </p-columnFilter>
                         </div>
-                    </th>
-                    <th pSortableColumn="category" style="min-width:10rem">
+                    </th> -->
+                    <!-- <th pSortableColumn="category" style="min-width:10rem">
                         {{'dashboard.Category'|translate}}
                         <p-sortIcon field="category.title"></p-sortIcon>
-                    </th>
+                    </th> -->
                     <th pSortableColumn="stock_qty" style="min-width:7rem">
                         <div class="d-flex justify-content-between align-items-center">
                             {{'dashboard.Quantity'|translate}}
@@ -113,7 +113,7 @@
                             </p-columnFilter>
                         </div>
                     </th>
-                
+
                     <th pSortableColumn="rating">
                         <div class="d-flex justify-content-between align-items-center">
                             {{'dashboard.Rating'|translate}}
@@ -133,7 +133,7 @@
                 </tr>
         </ng-template>
         <ng-template pTemplate="body" let-product>
-      
+
             <tr [dir]="isArabic()?'rtl':'ltr'">
                 <td class="text-center">
                     <img [src]="(product.image.length > 0 ? product.image : './assets/placeholder/placeholder2.jpg')"
@@ -146,7 +146,7 @@
                     translate) }}</td>
                 <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_AED + ' ' + ('currency.AED' |
                     translate) }}</td>
-            
+
                 <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.category }}</td>
                 <td class="text-center">{{ product.stock_qty }}</td>
                 <td class="text-center">
@@ -167,11 +167,11 @@
                                 class="fa-solid fa-pen-to-square"></i></button>
                         <button class="btn btn-danger" (click)="deleteProduct(product.pid)"><i
                                 class="fa-solid fa-trash"></i></button>
-            
+
                     </div>
                 </td>
             </tr>
-     
+
         </ng-template>
 
     </p-table>
