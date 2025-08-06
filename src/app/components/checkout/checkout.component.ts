@@ -61,7 +61,7 @@ export class CheckoutComponent implements OnInit {
     this.paymentMethod = method.value;
   }
   submitForm() {
-    let url = `https://levado-ecommerce-api.onrender.com/api/v1/paymob-test/${this.orderId}/${this.paymentMethod}/`;
+    let url = `https://omera2-production.up.railway.app/api/v1/paymob-test/${this.orderId}/${this.paymentMethod}/`;
     if (this.paymentMethod === 'wallet') {
       url += `?phone_num=${this.phone}/`;
     }
@@ -98,7 +98,7 @@ export class CheckoutComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.currentLang = res;
-       
+
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
