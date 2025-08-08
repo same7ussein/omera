@@ -16,8 +16,8 @@ export class PaymentService {
     return this._HttpClient.post(`${this.baseUrl}/v1/coupon/` , coponData)
   }
 
-  paymentSuccess(orderId:string , orderData:any):Observable<any>
+  paymentSuccess(orderId:string):Observable<any>
   {
-    return this._HttpClient.post(`${this.baseUrl}/v1/payment-success/${orderId}/` , orderData)
+    return this._HttpClient.get(`${this.baseUrl}/v1/paymob/check-payment/${orderId}/`)
   }
 }

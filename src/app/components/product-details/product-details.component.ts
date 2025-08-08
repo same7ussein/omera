@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -27,6 +33,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from '../loading/loading.component';
+import { combineLatest, map } from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -42,7 +49,7 @@ import { LoadingComponent } from '../loading/loading.component';
     RouterLink,
     LazyLoadImageModule,
     TranslateModule,
-    LoadingComponent
+    LoadingComponent,
   ],
   templateUrl: './product-details.component.html',
   styles: [
@@ -74,8 +81,8 @@ export class ProductDetailsComponent implements OnInit {
   allReviews: Review[] = [];
   reviewsCount: ReviewCount = {} as ReviewCount;
   loading: boolean = true;
-  currentLang: string = ''
-  slug: any ;
+  currentLang: string = '';
+  slug: any;
 
   constructor(
     private _ActivatedRoute: ActivatedRoute,
@@ -89,10 +96,9 @@ export class ProductDetailsComponent implements OnInit {
     private _Router: Router,
     private _CommonService: CommonService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
     this._ActivatedRoute.paramMap.subscribe({
       next: (params) => {
         this.slug = params.get('slug');
@@ -160,22 +166,22 @@ export class ProductDetailsComponent implements OnInit {
 
   getProductDetails(): void {
     this.loading = true;
-    this._ProductsService.getProductDetails(this.currency, this.slug, this.currentLang).subscribe({
-      next: (res) => {
-        this.productDetails = res;
-        this.ratingCount = this.productDetails?.product_rating?.toFixed(1);
-        console.log(this.productDetails);
-        this.images = this.productDetails?.gallery;
-        this.images.unshift({ image: this.productDetails?.image });
-        this.getAllReviews();
-        this.loading = false;
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
-      },
-    });
-
-
+    this._ProductsService
+      .getProductDetails(this.currency, this.slug, this.currentLang)
+      .subscribe({
+        next: (res) => {
+          this.productDetails = res;
+          this.ratingCount = this.productDetails?.product_rating?.toFixed(1);
+          console.log(this.productDetails);
+          this.images = this.productDetails?.gallery;
+          this.images.unshift({ image: this.productDetails?.image });
+          this.getAllReviews();
+          this.loading = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
+      });
   }
 
   decodeToken(): void {
@@ -231,7 +237,9 @@ export class ProductDetailsComponent implements OnInit {
       });
       this._CartService.addToCart(this.formData).subscribe({
         next: (response) => {
-            this._CartService.getUserCart(userId, userId, this.currentLang).subscribe({
+          this._CartService
+            .getUserCart(userId, userId, this.currentLang)
+            .subscribe({
               next: (response) => {
                 this.itemsCartCount = response.length;
                 console.log(response.length);
@@ -241,8 +249,7 @@ export class ProductDetailsComponent implements OnInit {
                 console.log(err);
               },
             });
-            this._ToastrService.success('Added To Cart');
-          
+          this._ToastrService.success('Added To Cart');
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
@@ -261,23 +268,29 @@ export class ProductDetailsComponent implements OnInit {
         next: (res) => {
           if (res.message == 'Added To Wishlist' && this.currentLang == 'en') {
             this._ToastrService.success('Added To Wishlist');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'ltr'
-          }
-          else if (res.message == 'Added To Wishlist' && this.currentLang == 'ar') {
+            const toaster: any = document.querySelector('.overlay-container');
+            toaster.style.direction = 'ltr';
+          } else if (
+            res.message == 'Added To Wishlist' &&
+            this.currentLang == 'ar'
+          ) {
             this._ToastrService.success('تمت الإضافه في قائمة المفضله');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'
-          }
-          else if (res.message == 'Removed From Wishlist' && this.currentLang == 'en') {
+            const toaster: any = document.querySelector('.overlay-container');
+            toaster.style.direction = 'rtl';
+          } else if (
+            res.message == 'Removed From Wishlist' &&
+            this.currentLang == 'en'
+          ) {
             this._ToastrService.error('Removed From Wishlist');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'ltr'
-          }
-          else if (res.message == 'Removed From Wishlist' && this.currentLang == 'ar') {
+            const toaster: any = document.querySelector('.overlay-container');
+            toaster.style.direction = 'ltr';
+          } else if (
+            res.message == 'Removed From Wishlist' &&
+            this.currentLang == 'ar'
+          ) {
             this._ToastrService.error('تمت الإزاله من قائمة المفضله');
-            const toaster: any = document.querySelector(".overlay-container")
-            toaster.style.direction = 'rtl'
+            const toaster: any = document.querySelector('.overlay-container');
+            toaster.style.direction = 'rtl';
           }
           this.wishlistData = res.wishlist;
           this._WishlistService.wishlistNumber.next(this.wishlistData.length);
@@ -354,9 +367,9 @@ export class ProductDetailsComponent implements OnInit {
     return this.translate.currentLang === 'ar';
   }
 
-  @ViewChild('img') mainImg!: ElementRef
+  @ViewChild('img') mainImg!: ElementRef;
   active(e: any) {
     const imgSrc: string = e.target.src;
-    this.mainImg.nativeElement.src = imgSrc
+    this.mainImg.nativeElement.src = imgSrc;
   }
 }

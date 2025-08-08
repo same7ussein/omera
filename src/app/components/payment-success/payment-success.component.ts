@@ -42,10 +42,10 @@ export class PaymentSuccessComponent implements OnInit{
       session_id:this.sessionId
     }
 
-    this._PaymentService.paymentSuccess(this.orderId , orderData).subscribe({
+    this._PaymentService.paymentSuccess(this.orderId).subscribe({
       next:(res)=>{
         console.log(res);
-        if (res.message == 'Already Paid' || res.message == 'Payment Successfull') {
+        if (res.message == 'Paid' || res.message == 'Payment Successfull') {
           this.PaidMsgSuccess = res.message
           this._CartService.cartItemsNumber.next(0)
         }
@@ -56,7 +56,7 @@ export class PaymentSuccessComponent implements OnInit{
       },
       error:(err)=>{
         console.log(err);
-        
+
       }
     })
 

@@ -100,10 +100,10 @@
                             </p-columnFilter>
                         </div>
                     </th> -->
-                    <!-- <th pSortableColumn="category" style="min-width:10rem">
+                    <th pSortableColumn="category" style="min-width:10rem">
                         {{'dashboard.Category'|translate}}
                         <p-sortIcon field="category.title"></p-sortIcon>
-                    </th> -->
+                    </th>
                     <th pSortableColumn="stock_qty" style="min-width:7rem">
                         <div class="d-flex justify-content-between align-items-center">
                             {{'dashboard.Quantity'|translate}}
@@ -141,17 +141,17 @@
                         [alt]="product.title" width="50" height="50"
                         (error)="product.image = './assets/placeholder/placeholder2.jpg'" />
                 </td>
-                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.title }}</td>
+                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.title_en }}</td>
                 <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_EGP + ' ' + ('currency.EGP' |
                     translate) }}</td>
-                <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_AED + ' ' + ('currency.AED' |
-                    translate) }}</td>
+                <!-- <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.price_AED + ' ' + ('currency.AED' |
+                    translate) }}</td> -->
 
                 <td class="text-center" [lang]="isArabic()? 'ar':'en'">{{ product.category }}</td>
                 <td class="text-center">{{ product.stock_qty }}</td>
                 <td class="text-center">
                     <div class="d-flex gap-2 align-items-center">
-                        <i [class.rating-color]="rate <=(product.product_rating|converttonumber) " *ngFor="let rate of [1,2,3,4,5]"
+                        <i [class.rating-color]="rate <=(product.rating|converttonumber) " *ngFor="let rate of [1,2,3,4,5]"
                             class="fa-solid fa-star"></i>
                     </div>
                 </td>

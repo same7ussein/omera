@@ -9,11 +9,13 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { ReceiptComponent } from '../orders/receipt/receipt.component';
+import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-order-details',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslateModule,LazyLoadImageModule, LoadingComponent],
+  imports: [CommonModule, TableModule, TranslateModule,LazyLoadImageModule, LoadingComponent,ReceiptComponent,NgxPrintModule],
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
 })
@@ -44,6 +46,9 @@ export class OrderDetailsComponent implements OnInit {
   first = 0;
   loading: boolean = true;
   currentLang: string = '';
+  orderData: any;
+
+  showReceipt = false;
 
   getOid(): void {
     this._ActivatedRoute.paramMap.subscribe({
@@ -73,6 +78,7 @@ export class OrderDetailsComponent implements OnInit {
       .getOrderDetails(this.id.vendor_id, this.Oid, this.currentLang)
       .subscribe({
         next: (res) => {
+          this.orderData = res;
           console.log(res);
           this.products = res.orderitem;
           this.data = res;
@@ -87,4 +93,8 @@ export class OrderDetailsComponent implements OnInit {
   isArabic(): boolean {
     return this.translate.currentLang === 'ar';
   }
+  toggleReceipt(): void {
+    this.showReceipt = !this.showReceipt;
+  }
+
 }

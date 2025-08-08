@@ -9,7 +9,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   selector: 'app-orders',
   standalone: true,
   imports: [CommonModule , RouterLink , TranslateModule],
-  
+
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })
@@ -19,13 +19,13 @@ export class OrdersComponent implements OnInit{
   allOrders:OrderData[] = []
   pendingDelivery:OrderData[] = []
   fulfilledOrders:OrderData[] = []
-  
-  ngOnInit(): void {    
+
+  ngOnInit(): void {
     this._AuthService.decodeToken()
     this.userId = this._AuthService.userInfo.user_id
     console.log(this.userId ,"orders");
 
-    this._CustomerDashboardService.orderList(1).subscribe({
+    this._CustomerDashboardService.orderList(this.userId).subscribe({
       next:(res)=>{
         console.log(res);
         this.allOrders = res
@@ -40,7 +40,7 @@ export class OrdersComponent implements OnInit{
       },
       error:(err)=>{
         console.log(err);
-        
+
       }
     })
   }
