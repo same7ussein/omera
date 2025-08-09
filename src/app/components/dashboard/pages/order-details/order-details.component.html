@@ -145,18 +145,11 @@
 <!-- Receipt Modal -->
 <div class="modal-backdrop" *ngIf="showReceipt">
   <div class="modal-content">
-    <div id="print-section">
+    <div id="print-section" #printSection>
       <app-receipt [order]="orderData"></app-receipt>
     </div>
     <div class="modal-actions">
-      <button
-        ngxPrint
-        printSectionId="print-section"
-        [useExistingCss]="true"
-        printTitle="فاتورة طلب"
-      >
-        print
-      </button>
+      <button (click)="print()">Print</button>
       <button (click)="toggleReceipt()">Cancel</button>
     </div>
   </div>

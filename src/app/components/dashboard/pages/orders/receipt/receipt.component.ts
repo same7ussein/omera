@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-receipt',
   standalone: true,
-  imports: [CommonModule,NgxPrintModule],
+  imports: [CommonModule],
   templateUrl: './receipt.component.html',
   styleUrls: ['./receipt.component.scss']
 })
@@ -36,6 +35,6 @@ export class ReceiptComponent {
     return this.order?.vendor_total?.total || 0;
   }
 
-  
+
 
 }

@@ -1,5 +1,5 @@
 import { AdminDashboardService } from 'src/app/shared/services/admin-dashboard.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -10,16 +10,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { ReceiptComponent } from '../orders/receipt/receipt.component';
-import { NgxPrintModule } from 'ngx-print';
 
 @Component({
   selector: 'app-order-details',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslateModule,LazyLoadImageModule, LoadingComponent,ReceiptComponent,NgxPrintModule],
+  imports: [
+    CommonModule,
+    TableModule,
+    TranslateModule,
+    LazyLoadImageModule,
+    LoadingComponent,
+    ReceiptComponent,
+  ],
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit {
+  @ViewChild('printSection', { static: false }) printSection!: ElementRef;
   constructor(
     private _AdminDashboardService: AdminDashboardService,
     private _ActivatedRoute: ActivatedRoute,
@@ -96,5 +103,43 @@ export class OrderDetailsComponent implements OnInit {
   toggleReceipt(): void {
     this.showReceipt = !this.showReceipt;
   }
+
+print() {
+  if (!this.printSection) return;
+
+  const clone = this.printSection.nativeElement.cloneNode(true) as HTMLElement;
+
+  clone.querySelectorAll('img').forEach(img => {
+    const srcAttr = img.getAttribute('src');
+    if (srcAttr && !srcAttr.startsWith('http')) {
+      img.src = `${location.origin}/${srcAttr}`;
+    }
+  });
+
+  const printContents = clone.innerHTML;
+
+  const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+    .map(node => node.outerHTML)
+    .join('');
+
+  const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+  if (printWindow) {
+    printWindow.document.open();
+    printWindow.document.write(`
+      <html>
+        <head>
+          ${styles}
+        </head>
+        <body onload="window.print(); window.close();">
+          ${printContents}
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+}
+
 
 }
