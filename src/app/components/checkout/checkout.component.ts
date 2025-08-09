@@ -63,7 +63,7 @@ export class CheckoutComponent implements OnInit {
   submitForm() {
     let url = `https://omera2-production.up.railway.app/api/v1/paymob-test/${this.orderId}/${this.paymentMethod}/`;
     if (this.paymentMethod === 'wallet') {
-      url += `?phone_num=${this.phone}/`;
+      url += `?phone_num=${this.phone}`;
     }
     console.log('url', url);
     window.location.href = url;
