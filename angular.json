@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Levado": {
+    "Omera": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -81,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Levado:build:production"
+              "browserTarget": "Omera:build:production"
             },
             "development": {
-              "browserTarget": "Levado:build:development"
+              "browserTarget": "Omera:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Levado:build"
+            "browserTarget": "Omera:build"
           }
         },
         "test": {

@@ -17,7 +17,7 @@ const routes: Routes = [
           import('./components/shoes/shoes.component').then(
             (m) => m.ShoesComponent
           ),
-        title: 'Levado home',
+        title: 'Omera home',
       },
       {
         path: 'products',
@@ -58,7 +58,7 @@ const routes: Routes = [
           import('./components/about/about.component').then(
             (m) => m.AboutComponent
           ),
-        title: 'About Levado',
+        title: 'About Omera',
       },
       {
         path: 'cart',
@@ -288,7 +288,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'})],
+  imports: [RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled',useHash:true})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
