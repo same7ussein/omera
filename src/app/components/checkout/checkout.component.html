@@ -11,7 +11,7 @@
         </p>
         <h4 class="my-4">{{ "cart.Shipping Address" | translate }}</h4>
         <form [formGroup]="shippingAddress">
-          <div>
+          <!-- <div>
             <label for="name">{{ "cart.Full Name" | translate }}</label>
             <input
               class="form-control w-100"
@@ -20,17 +20,17 @@
               formControlName="full_name"
               readonly
             />
-          </div>
+          </div> -->
           <div class="d-flex justify-content-between gap-3">
             <div class="w-50">
-              <label for="email">{{ "cart.Email" | translate }}</label>
-              <input
-                class="form-control w-100"
-                type="email"
-                id="email"
-                formControlName="email"
-                readonly
-              />
+              <label for="name">{{ "cart.Full Name" | translate }}</label>
+            <input
+              class="form-control w-100"
+              type="text"
+              id="name"
+              formControlName="full_name"
+              readonly
+            />
             </div>
             <div class="w-50">
               <label for="phone"> {{ "cart.Mobile" | translate }}</label>
@@ -67,7 +67,7 @@
           </div>
           <div class="d-flex justify-content-between gap-3">
             <div class="w-50">
-              <label for="State"> {{ "cart.State" | translate }}</label>
+              <label for="State"> {{ "cart.governorate" | translate }}</label>
               <input
                 class="form-control w-100"
                 type="text"
@@ -76,7 +76,7 @@
                 readonly
               />
             </div>
-            <div class="w-50">
+            <!-- <div class="w-50">
               <label for="Country"> {{ "cart.Country" | translate }}</label>
               <input
                 class="form-control w-100"
@@ -85,7 +85,7 @@
                 formControlName="Country"
                 readonly
               />
-            </div>
+            </div> -->
           </div>
         </form>
       </div>

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   RxReactiveFormsModule,
   RxwebValidators,
@@ -34,6 +34,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
     InputGroupAddonModule,
     TranslateModule,
     PasswordModule,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],

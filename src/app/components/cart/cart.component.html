@@ -28,8 +28,8 @@
                                     <div>
                                         <button #updateBtn class="btn-main px-3 py-2 w-100 mt-2" (click)="updateCart(item.product.id , item.price , item.shipping_amount , item.size , item.color)">{{'cart.Update' | translate}}<i class="fa-solid fa-arrows-rotate mx-2 "></i></button>
                                     </div>
-                                    <p class="text-center mt-3 fw-bold h5" [lang]="isArabic()? 'ar':'en'">{{item.price | productCost : qty.innerText}} {{'currency.' + item.currency | translate}}</p>               
-                                </div>    
+                                    <p class="text-center mt-3 fw-bold h5" [lang]="isArabic()? 'ar':'en'">{{item.price | productCost : qty.innerText}} {{'currency.' + item.currency | translate}}</p>
+                                </div>
                             </div>
                         </div>
                         <hr class="my-3">
@@ -52,15 +52,16 @@
                 <div class="userData mt-5" *ngIf="noItems == false">
                     <form [formGroup]="PersonalInfo">
                         <h4 class="mb-4">{{'cart.Personal Information' | translate}}</h4>
-                        <div>
+                        <!-- <div>
                             <label for="name"><i class="fa-solid fa-user mx-2"></i> {{'cart.Full Name' | translate}}</label>
                             <input #input class="form-control w-100" type="text" id="name" formControlName="full_name">
-                        </div>
+                        </div> -->
                         <div class="d-flex justify-content-between gap-3">
                             <div class="w-50">
-                                <label for="email"><i class="fa-solid fa-envelope mx-2"></i>{{'cart.Email' | translate}}</label>
-                                <input #input class="form-control w-100" type="email" id="email" formControlName="email">
+                                <label for="name"><i class="fa-solid fa-user mx-2"></i> {{'cart.Full Name' | translate}}</label>
+                            <input #input class="form-control w-100" type="text" id="name" formControlName="full_name">
                             </div>
+
                             <div class="w-50">
                                 <label for="phone"><i class="fa-solid fa-phone mx-2"></i>{{'cart.Mobile' | translate}}</label>
                                 <input #input class="form-control w-100" type="tel" id="phone" formControlName="phone">
@@ -81,19 +82,19 @@
                         </div>
                         <div class="d-flex justify-content-between gap-3">
                             <div class="w-50">
-                                <label for="State">{{'cart.State' | translate}}</label>
+                                <label for="State">{{'cart.governorate' | translate}}</label>
                                 <input  #input class="form-control w-100" type="text" id="State" formControlName="State">
                             </div>
-                            <div class="w-50">
+                            <!-- <div class="w-50">
                                 <label for="Country">{{'cart.Country' | translate}}</label>
                                 <input  #input class="form-control w-100" type="text" id="Country" formControlName="Country">
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        
+
     </div>
     <div class="py-3 text-white rounded-2 mx-auto" *ngIf="noItems" [lang]="isArabic()? 'ar':'en'">
         <p class="text-center h1 text-danger">{{'cart.Your Cart is empty' | translate}} <img src="./assets/cart.png" alt="" height="150"></p>

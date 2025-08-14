@@ -21,7 +21,9 @@
     "phone.required": "phone is required",
     "phone.pattern": "accept only egypt Phone numbers",
     "logout": "Logout",
-    "account": "Account"
+    "account": "Account",
+    "do you have an account": "Do you have an account?",
+    "don't have an account": "Don't have an account?"
   },
   "lang": {
     "English": "English",
@@ -96,6 +98,7 @@
     "City": "City",
     "Country": "Country",
     "State": "State",
+    "governorate": "Governorate",
     "Cart Summary": "Cart Summary",
     "Subtotal": "Subtotal",
     "Shipping": "Shipping",

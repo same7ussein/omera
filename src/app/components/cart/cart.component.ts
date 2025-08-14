@@ -97,7 +97,7 @@ export class CartComponent implements OnInit {
       this.noItems = true;
     }
 
-    
+
   }
 
   // --------------------------------------------------------------------------------(Forms)
@@ -106,10 +106,10 @@ export class CartComponent implements OnInit {
 
   PersonalInfo: FormGroup = this._FormBuilder.group({
     full_name: ['', [Validators.required]],
-    email: ['', [Validators.required]],
+    // email: ['', ],
     phone: [
       '',
-      [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)],
+      [Validators.required],
     ],
   });
 
@@ -119,7 +119,7 @@ export class CartComponent implements OnInit {
     Address: ['', [Validators.required]],
     City: ['', [Validators.required]],
     State: ['', [Validators.required]],
-    Country: ['', [Validators.required]],
+    // Country: ['', [Validators.required]],
   });
 
   // --------------------------------------------------------------------------------
@@ -148,10 +148,10 @@ export class CartComponent implements OnInit {
       const itemData: FormGroup = this._FormBuilder.group({
         full_name: this.PersonalInfo.get('full_name')?.value,
         user_id: this.userId,
-        email: this.PersonalInfo.get('email')?.value,
+        // email: this.PersonalInfo.get('email')?.value,
         mobile: this.PersonalInfo.get('phone')?.value,
         address: this.shippingAddress.get('Address')?.value,
-        country: this.shippingAddress.get('Country')?.value,
+        // country: this.shippingAddress.get('Country')?.value,
         state: this.shippingAddress.get('State')?.value,
         city: this.shippingAddress.get('City')?.value,
         cart_id: this.userId,
@@ -198,14 +198,14 @@ export class CartComponent implements OnInit {
     let itemQty: number = Number(this.itemQty.nativeElement.innerText);
     console.log(itemQty);
 
-    let userCountry: string = '';
+    // let userCountry: string = '';
 
-    this._CartService.getUserCountry().subscribe({
-      next: (res) => {
-        userCountry = res;
-      },
-      error: (err: HttpErrorResponse) => {},
-    });
+    // this._CartService.getUserCountry().subscribe({
+    //   next: (res) => {
+    //     userCountry = res;
+    //   },
+    //   error: (err: HttpErrorResponse) => {},
+    // });
 
     const itemData: FormGroup = this._FormBuilder.group({
       product_id: productId,
@@ -213,7 +213,7 @@ export class CartComponent implements OnInit {
       qty: itemQty,
       price: Price,
       shipping_amount: shipping,
-      country: userCountry,
+      // country: userCountry,
       size: size,
       color: color,
       cart_id: userId,
@@ -239,7 +239,7 @@ export class CartComponent implements OnInit {
           const toaster:any = document.querySelector(".overlay-container")
           toaster.style.direction = 'rtl'
         }
-        
+
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
