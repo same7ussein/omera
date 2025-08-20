@@ -17,7 +17,7 @@
                         pTooltip="CSV" tooltipPosition="bottom"></button>
                     <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
                         class="p-button-success mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-    
+
                     <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPDF()"
                         class="p-button-warning mr-2" pTooltip="PDF" tooltipPosition="bottom" *ngIf="!isArabic()"></button>
                 </div>
@@ -54,9 +54,9 @@
                 <th pSortableColumn="date">
                     {{'dashboard.Date'|translate}} <p-sortIcon field="date"></p-sortIcon>
                     <p-columnFilter type="date" field="date" display="menu"></p-columnFilter>
-    
+
                 </th>
-    
+
                 <th>{{'dashboard.Action'|translate}}</th>
             </tr>
         </ng-template>
@@ -64,11 +64,11 @@
             <tr>
                 <th>#{{order.oid}}</th>
                 <th>{{order.full_name}}</th>
-                <td>{{ order.total }}</td>
+                <td>{{ order.vendor_total }}</td>
                 <td><p-tag [value]="order.order_status" [severity]="getSeverity(order.order_status)!"></p-tag></td>
                 <td><p-tag [value]="order.payment_status" [severity]="getSeverity(order.payment_status)!"></p-tag></td>
                 <td>{{ order.date|date:'EEEE, MMMM d, y, h:mm:ss a' }}</td>
-    
+
                 <td>
                     <div class="d-flex gap-1">
                         <button class="btn btn-primary" [routerLink]="['/dashboard/orderDetails',order.oid]"><i

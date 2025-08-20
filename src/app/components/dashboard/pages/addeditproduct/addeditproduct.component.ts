@@ -165,7 +165,9 @@ export class AddeditproductComponent implements OnInit {
               this.firstForm.get('brand')?.setValue(res.brand.id)
               this.firstForm.get('price_EGP')?.setValue(res.price_EGP)
               this.firstForm.get('price_AED')?.setValue(res.price_AED)
-              this.firstForm.get('shipping_amount')?.setValue(res.shipping_amount)
+              // this.firstForm.get('shipping_amount')?.setValue(res.shipping_amount)
+              this.firstForm.get('is_new_collections')?.setValue(res.is_new)
+              this.firstForm.get('sku')?.setValue(res.sku)
               this.firstForm.get('stock_qty')?.setValue(res.stock_qty)
               this.productImageSrc = res.image
               this.imageUrl = res.image
@@ -213,7 +215,8 @@ export class AddeditproductComponent implements OnInit {
     brand: [null, Validators.required],
     price_EGP: [0, Validators.required],
     price_AED: [0],
-    shipping_amount: [0, Validators.required],
+    is_new_collections: [true],
+    sku: [''],
     stock_qty: [0, Validators.required],
   });
 
@@ -402,7 +405,8 @@ export class AddeditproductComponent implements OnInit {
       brand: this.firstForm.get('brand')?.value,
       price_EGP: this.firstForm.get('price_EGP')?.value,
       price_AED: this.firstForm.get('price_AED')?.value,
-      shipping_amount: this.firstForm.get('shipping_amount')?.value,
+      is_new: this.firstForm.get('is_new_collections')?.value,
+      sku: this.firstForm.get('sku')?.value,
       stock_qty: this.firstForm.get('stock_qty')?.value,
       in_stock: availability,
       vendor: this.vendorId,
@@ -507,7 +511,8 @@ export class AddeditproductComponent implements OnInit {
       brand: this.firstForm.get('brand')?.value,
       price_EGP: this.firstForm.get('price_EGP')?.value,
       price_AED: this.firstForm.get('price_AED')?.value,
-      shipping_amount: this.firstForm.get('shipping_amount')?.value,
+      is_new: this.firstForm.get('is_new_collections')?.value,
+      sku: this.firstForm.get('sku')?.value,
       stock_qty: this.firstForm.get('stock_qty')?.value,
       in_stock: availability,
       vendor: this.vendorId,

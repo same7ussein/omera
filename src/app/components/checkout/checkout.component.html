@@ -24,13 +24,13 @@
           <div class="d-flex justify-content-between gap-3">
             <div class="w-50">
               <label for="name">{{ "cart.Full Name" | translate }}</label>
-            <input
-              class="form-control w-100"
-              type="text"
-              id="name"
-              formControlName="full_name"
-              readonly
-            />
+              <input
+                class="form-control w-100"
+                type="text"
+                id="name"
+                formControlName="full_name"
+                readonly
+              />
             </div>
             <div class="w-50">
               <label for="phone"> {{ "cart.Mobile" | translate }}</label>
@@ -101,12 +101,17 @@
             orderData.shipping_amount
               | currency
                 : " EGP
-                        "
+            "
           }}</span>
         </p>
         <p class="d-flex flex-wrap justify-content-between align-items-center">
           <span class="text-secondary">{{ "cart.Tax" | translate }}</span
-          ><span>{{ orderData.tax_fee | currency : " EGP " }}</span>
+          ><span>{{
+            orderData.tax_fee
+              | currency
+                : " EGP
+            "
+          }}</span>
         </p>
         <p class="d-flex flex-wrap justify-content-between align-items-center">
           <span class="text-secondary">{{
@@ -116,7 +121,7 @@
             orderData.service_fee
               | currency
                 : " EGP
-                        "
+            "
           }}</span>
         </p>
         <p
@@ -182,6 +187,7 @@
                   <option value="" selected disabled>
                     {{ "cart.Select Payment Method" | translate }}
                   </option>
+                  <option value="cash">{{ "cart.cash" | translate }}</option>
                   <option value="card">{{ "cart.Card" | translate }}</option>
                   <option value="wallet">
                     {{ "cart.Wallet" | translate }}

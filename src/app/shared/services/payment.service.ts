@@ -20,4 +20,8 @@ export class PaymentService {
   {
     return this._HttpClient.get(`${this.baseUrl}/v1/paymob/check-payment/${orderId}/`)
   }
+  paymentCash(orderId:string):Observable<any>
+  {
+    return this._HttpClient.post(`${this.baseUrl}/v1/cash-payment/${orderId}/`,{})
+  }
 }

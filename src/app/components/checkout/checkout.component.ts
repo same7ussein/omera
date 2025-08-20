@@ -1,6 +1,11 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CartSummary } from 'src/app/shared/interfaces/cart-summary';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CartService } from 'src/app/shared/services/cart.service';
@@ -10,17 +15,18 @@ import { PaymentService } from 'src/app/shared/services/payment.service';
 import { OrderData } from 'src/app/shared/interfaces/order-data';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule , TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslateModule],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent implements OnInit {
   constructor(
-    private _CommonService:CommonService,
+    private _CommonService: CommonService,
     private _FormBuilder: FormBuilder,
     private _Renderer2: Renderer2,
     private _AuthService: AuthService,
@@ -29,7 +35,9 @@ export class CheckoutComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private http: HttpClient,
     private _Router: Router,
-    private translate:TranslateService
+    private translate: TranslateService,
+    private _ToastrService: ToastrService,
+    private router: Router
   ) {}
 
   shippingAddress: FormGroup = this._FormBuilder.group({
@@ -61,12 +69,27 @@ export class CheckoutComponent implements OnInit {
     this.paymentMethod = method.value;
   }
   submitForm() {
-    let url = `https://api.omera-eg.com/api/v1/paymob-test/${this.orderId}/${this.paymentMethod}/`;
-    if (this.paymentMethod === 'wallet') {
-      url += `?phone_num=${this.phone}`;
+    if (this.paymentMethod === 'cash') {
+      this._PaymentService.paymentCash(this.orderId).subscribe({
+        next: (res) => {
+          const status = 'success';
+          const id = this.orderId;
+          this.router.navigate([`/order-success`, status, id]);
+        },
+        error: (err) => {
+          const status = 'fail';
+          const id = this.orderId;
+          this.router.navigate([`/order-success`, status, id]);
+        },
+      });
+    } else {
+      let url = `https://api.omera-eg.com/api/v1/paymob-test/${this.orderId}/${this.paymentMethod}/`;
+      if (this.paymentMethod === 'wallet') {
+        url += `?phone_num=${this.phone}`;
+      }
+      console.log('url', url);
+      window.location.href = url;
     }
-    console.log('url', url);
-    window.location.href = url;
   }
   // get order details func
   getOrderDetails() {
@@ -98,7 +121,6 @@ export class CheckoutComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this.currentLang = res;
-
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
@@ -122,15 +144,17 @@ export class CheckoutComponent implements OnInit {
     console.log(this.userId);
 
     // get itemsCartCount
-    this._CartService.getUserCart(this.userId, this.userId , this.currentLang).subscribe({
-      next: (response) => {
-        this.itemsCartCount = response.length;
-        console.log(response.length);
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
-      },
-    });
+    this._CartService
+      .getUserCart(this.userId, this.userId, this.currentLang)
+      .subscribe({
+        next: (response) => {
+          this.itemsCartCount = response.length;
+          console.log(response.length);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
+      });
   }
 
   // copon func
@@ -172,4 +196,3 @@ export class CheckoutComponent implements OnInit {
     return this.translate.currentLang === 'ar';
   }
 }
-

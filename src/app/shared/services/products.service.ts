@@ -24,6 +24,17 @@ export class ProductsService {
     );
   }
 
+  getNewProduct(lang:string): Observable<any> {
+    return this._HttpClient.get(
+      `${this.baseUrl}/v1/product-new/`,
+      {
+        headers: {
+          'Accept-Language':lang
+        }
+      }
+    );
+  }
+
   getBestSeller(currency: string,lang:string): Observable<any> {
     return this._HttpClient.get(
       `${this.baseUrl}/v1/product-bestseller/${currency}/`,

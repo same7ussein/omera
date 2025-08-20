@@ -84,6 +84,14 @@ const routes: Routes = [
           ),
         title: 'Cart',
       },
+      {
+        path: 'order-success/:status/:id',
+        loadComponent: () =>
+          import('./components/order-success/order-success.component').then(
+            (m) => m.OrderSuccessComponent
+          ),
+        title: 'Cart',
+      },
 
       {
         path: 'account',

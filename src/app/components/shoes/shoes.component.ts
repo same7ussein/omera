@@ -58,6 +58,40 @@ export class ShoesComponent implements OnInit {
   loadingPopular: boolean = true;
   loadingBest: boolean = true;
   loadingbrand: boolean = true;
+  loadingNew: boolean = true;
+  newProduct: AllProducts[] = [];
+  newProductSlider: OwlOptions = {
+    rtl: false,
+    // loop: true,
+    margin: 15,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    navSpeed: 700,
+    // autoplay: true,
+    autoplaySpeed: 1000,
+    autoplayTimeout: 4000,
+    navText: [
+      '<i class="fas fa-chevron-left"></i>',
+      '<i class="fas fa-chevron-right"></i>',
+    ],
+    responsive: {
+      0: {
+        items: 1,
+      },
+      400: {
+        items: 2,
+      },
+      740: {
+        items: 3,
+      },
+      940: {
+        items: 4,
+      },
+    },
+    nav: true,
+  };
 
   productSlider: OwlOptions = {
     rtl: false,
@@ -195,8 +229,19 @@ export class ShoesComponent implements OnInit {
               '<i class="fas fa-chevron-left"></i>',
               '<i class="fas fa-chevron-right"></i>',
             ];
+        this.newProductSlider.rtl = this.isArabic();
+        this.newProductSlider.navText = this.isArabic()
+          ? [
+              '<i class="fas fa-chevron-right"></i>',
+              '<i class="fas fa-chevron-left"></i>',
+            ]
+          : [
+              '<i class="fas fa-chevron-left"></i>',
+              '<i class="fas fa-chevron-right"></i>',
+            ];
 
         this.getAllCategory();
+        this.getNewProducts();
         this.getPopularProducts();
         this.getBestProducts();
       },
@@ -253,6 +298,21 @@ export class ShoesComponent implements OnInit {
         next: (res) => {
           this.popularProduct = res;
           this.loadingPopular = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+        },
+      });
+  }
+
+  getNewProducts(): void {
+    this.loadingNew = true;
+    this._ProductsService
+      .getNewProduct(this.currentLang)
+      .subscribe({
+        next: (res) => {
+          this.newProduct = res;
+          this.loadingNew = false;
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);

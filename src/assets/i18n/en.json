@@ -59,7 +59,8 @@
     "new": "New",
     "Download App": "Download App",
     "Social Media": "Social Media",
-    "Show Product": "Show Product"
+    "Show Product": "Show Product",
+    "new collections": "New Collections"
   },
   "products": {
     "products": "products",
@@ -86,7 +87,6 @@
     "Category": "Categor",
     "Remove": "Remove",
     "Update": "Update",
-
     "Settings": "Settings",
     "Personal Information": "Personal Information",
     "Profile Image": "Profile Image",
@@ -110,9 +110,7 @@
     "Got To Checkout": "Got To Checkout",
     "Your Cart is empty": "Your Cart is empty",
     "Shipping Amount": "Shipping Amount",
-    "Checkout Now":"Checkout Now",
-
-
+    "Checkout Now": "Checkout Now",
     "Review Your Shipping & Order Details": "Review Your Shipping & Order Details",
     "Payment Method": "Payment Method",
     "Select Payment Method": "Select Payment Method",
@@ -124,7 +122,8 @@
     "Coupon Activated": "Coupon Activated",
     "Coupon Already Activated": "Coupon Already Activated",
     "Coupon Does Not Exist": "Coupon Does Not Exist",
-    "Close": "Close"
+    "Close": "Close",
+    "cash": "Cash on Delivery"
   },
   "productDetails": {
     "reviews": "reviews",
@@ -163,8 +162,7 @@
     "All Orders": "All Orders",
     "Qty": "Qty",
     "Order Details": "Order Details",
-    "View":"View"
-
+    "View": "View"
   },
   "add&editProduct": {
     "Product Details": "Product Details",
@@ -193,7 +191,10 @@
     "Color name": "Color name",
     "Color Code": "Color Code",
     "Size": "Size",
-    "Add More": "Add More"
+    "Add More": "Add More",
+    "New Collections": "New Collections",
+    "Sku": "Sku",
+    "Enter Sku": "Enter Sku"
   },
   "dashboard": {
     "dashboard": "dashboard",
@@ -256,10 +257,9 @@
     "ProductName": "ProductName",
     "OrderName": "Order Owner",
     "unit price": "Unit Price",
-    "size":"Size",
-    "color":"Color",
+    "size": "Size",
+    "color": "Color",
     "total": "Total"
-
   },
   "currency": {
     "EGP": "LE",
