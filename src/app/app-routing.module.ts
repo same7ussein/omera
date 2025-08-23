@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { dashboardGuard } from './shared/guard/dashboard.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -67,6 +68,7 @@ const routes: Routes = [
             (m) => m.CartComponent
           ),
         title: 'Cart',
+        canActivate: [AuthGuard]
       },
       {
         path: 'checkOut/:id',
@@ -75,7 +77,9 @@ const routes: Routes = [
             (m) => m.CheckoutComponent
           ),
         title: 'Cart',
+        canActivate: [AuthGuard],
       },
+
       {
         path: 'payment-success/:id',
         loadComponent: () =>
@@ -100,6 +104,7 @@ const routes: Routes = [
             (m) => m.AccountComponent
           ),
         title: 'Cart',
+        canActivate: [AuthGuard],
         children: [
           { path: '', redirectTo: 'Account', pathMatch: 'full' },
           {

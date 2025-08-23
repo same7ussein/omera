@@ -1,10 +1,16 @@
-
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpErrorResponse
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private publicUrls = [
@@ -38,31 +44,36 @@ export class AuthInterceptor implements HttpInterceptor {
 
     const accessToken = this.authService.getAccessToken();
 
-    if (accessToken) {
-      const clonedReq = this.addToken(req, accessToken);
-      return next.handle(clonedReq).pipe(
-        catchError(error => {
-          if (error instanceof HttpErrorResponse && error.status === 401 && !this.isRefreshing) {
-            this.isRefreshing = true;
-            return this.authService.refreshAccessToken().pipe(
-              switchMap((newToken: any) => {
-                this.isRefreshing = false;
-                const clonedReqWithNewToken = this.addToken(req, newToken.access);
-                return next.handle(clonedReqWithNewToken);
-              }),
-              catchError(refreshError => {
-                this.isRefreshing = false;
-
-                this.router.navigate(['/login']);
-                return throwError(() => refreshError);
-              })
-            );
-          }
-          return throwError(() => error);
+    if (!accessToken) {
+      return this.authService.refreshAccessToken().pipe(
+        switchMap((newToken: any) => {
+          const clonedReq = this.addToken(req, newToken.access);
+          return next.handle(clonedReq);
+        }),
+        catchError(err => {
+          this.router.navigate(['/login']);
+          return throwError(() => err);
         })
       );
     }
-    return next.handle(req);
+
+    if (this.authService.isAccessTokenExpired()) {
+      return this.authService.refreshAccessToken().pipe(
+        switchMap((newToken: any) => {
+          const clonedReq = this.addToken(req, newToken.access);
+          return next.handle(clonedReq);
+        }),
+        catchError(err => {
+          this.router.navigate(['/login']);
+          return throwError(() => err);
+        })
+      );
+    }
+
+    const clonedReq = this.addToken(req, accessToken);
+    return next.handle(clonedReq).pipe(
+      catchError(error => this.handleError(req, next, error))
+    );
   }
 
   private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
@@ -71,7 +82,31 @@ export class AuthInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${token}`
       },
       withCredentials: true
-
     });
+  }
+
+  private handleError(req: HttpRequest<any>, next: HttpHandler, error: any): Observable<HttpEvent<any>> {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 401 && !this.isRefreshing) {
+        this.isRefreshing = true;
+        return this.authService.refreshAccessToken().pipe(
+          switchMap((newToken: any) => {
+            this.isRefreshing = false;
+            const clonedReq = this.addToken(req, newToken.access);
+            return next.handle(clonedReq);
+          }),
+          catchError(refreshError => {
+            this.isRefreshing = false;
+            this.authService.logout();
+            this.router.navigate(['/login']);
+            return throwError(() => refreshError);
+          })
+        );
+      }
+
+      return throwError(() => error);
+    }
+
+    return throwError(() => error);
   }
 }

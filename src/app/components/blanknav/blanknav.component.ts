@@ -99,7 +99,6 @@ export class BlanknavComponent implements OnInit {
       console.log(this.selectedCurrencyFlag);
     }
 
-    this._AuthService.decodeToken();
     if (this._AuthService.userInfo !== 'notLogin') {
       this.userLogedIn = true;
       this.userId = this._AuthService.userInfo?.user_id;
