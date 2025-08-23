@@ -202,8 +202,10 @@ export class VendorCouponsComponent implements OnInit {
         }
       });
 
-      // لو عندك vendorId لازم يترسل
-      formData.append('vendor_id', this.vendorId.toString());
+      if (this.vendorId != null) {
+        formData.append('vendor_id', this.vendorId.toString());
+      }
+      formData.append('vendor_id', 'undefined');
 
       this._VendorCoponsService
         .updateCoupon(this.vendorId, couponId, formData)
