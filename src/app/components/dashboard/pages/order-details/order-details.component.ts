@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { ReceiptComponent } from '../orders/receipt/receipt.component';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-order-details',
@@ -31,7 +32,8 @@ export class OrderDetailsComponent implements OnInit {
     private _AdminDashboardService: AdminDashboardService,
     private _ActivatedRoute: ActivatedRoute,
     private translate: TranslateService,
-    private _CommonService: CommonService
+    private _CommonService: CommonService,
+    private _AuthService: AuthService
   ) {}
   ngOnInit(): void {
     this.getOid();
@@ -69,15 +71,7 @@ export class OrderDetailsComponent implements OnInit {
     });
   }
   getId(): void {
-    const encode = localStorage.getItem('eToken');
-    if (encode !== null) {
-      const decode = jwtDecode(encode);
-      this.id = decode;
-      console.log(this.id);
-      console.log(this.id.vendor_id);
-    } else {
-      this.id = 'notLogin';
-    }
+    this.id=this._AuthService.userInfo;
   }
   getOrderDetails(): void {
     this.loading = true;

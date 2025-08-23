@@ -1,7 +1,12 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VendorCoponsService } from 'src/app/shared/services/vendor-copons.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
@@ -9,7 +14,12 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
 @Component({
   selector: 'app-vendor-coupons',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, LoadingComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    LoadingComponent,
+  ],
   templateUrl: './vendor-coupons.component.html',
   styleUrls: ['./vendor-coupons.component.scss'],
 })
@@ -29,11 +39,6 @@ export class VendorCouponsComponent implements OnInit {
   vendorId: number = 0;
   couponsName: string[] = [];
   loading: boolean = true;
-  couponDataForm: FormGroup = this._FormBuilder.group({
-    code: ['', [Validators.required]],
-    discount: ['', [Validators.required]],
-    active: [false],
-  });
   couponStatus() {
     this.loading = true;
     this._VendorCoponsService.couponsStatus(this.vendorId).subscribe({
@@ -48,28 +53,42 @@ export class VendorCouponsComponent implements OnInit {
       },
     });
   }
+
+  // all coupons
+  couponDataForm: FormGroup = this._FormBuilder.group({
+    code: ['', [Validators.required]],
+    discount_type: ['percent', [Validators.required]],
+    discount_value: ['', [Validators.required, Validators.min(1)]],
+    usage_limit: [null], // optional
+    valid_from: [null], // optional
+    valid_to: [null], // optional
+    active: [false],
+  });
+
   createCoupon(layer: HTMLDivElement, alert: HTMLDivElement) {
     if (this.couponDataForm.valid) {
       for (const couponName of this.allCoupons) {
         this.couponsName.push(couponName.code);
       }
+
       if (this.couponsName.includes(this.couponDataForm.get('code')?.value)) {
         this._Renderer2.removeClass(alert, 'd-none');
       } else {
-        console.log(this.couponsName);
-
-        const itemData: FormGroup = this._FormBuilder.group({
-          vendor_id: 1,
+        const itemData = {
+          vendor_id: this.vendorId,
           code: this.couponDataForm.get('code')?.value,
-          discount: this.couponDataForm.get('discount')?.value,
+          discount_type: this.couponDataForm.get('discount_type')?.value,
+          discount_value: this.couponDataForm.get('discount_value')?.value,
+          usage_limit: this.couponDataForm.get('usage_limit')?.value,
+          valid_from: this.couponDataForm.get('valid_from')?.value,
+          valid_to: this.couponDataForm.get('valid_to')?.value,
           active: this.couponDataForm.get('active')?.value,
-        });
+        };
 
         const formData = new FormData();
-        Object.keys(itemData.value).forEach((key) => {
-          formData.append(key, itemData.get(key)?.value);
+        Object.keys(itemData).forEach((key) => {
+          formData.append(key, (itemData as any)[key]);
         });
-        //console.log(itemData.value);
 
         this._VendorCoponsService
           .createCoupon(this.vendorId, formData)
@@ -91,7 +110,7 @@ export class VendorCouponsComponent implements OnInit {
       this.couponDataForm.markAllAsTouched();
     }
   }
-  // all coupons
+
   getAllCoupons() {
     this.loading = true;
     this._VendorCoponsService.listCoupons(this.vendorId).subscribe({
@@ -113,13 +132,7 @@ export class VendorCouponsComponent implements OnInit {
     this.couponStatus();
   }
 
-  editCoupon(layer: HTMLDivElement) {
-    this.couponId = 0;
-    this.couponDataForm.get('code')?.setValue('');
-    this.couponDataForm.get('discount')?.setValue('');
-    this.couponDataForm.get('active')?.setValue(false);
-    this._Renderer2.removeClass(layer, 'd-none');
-  }
+
   closeLayer(layer: HTMLDivElement) {
     this._Renderer2.addClass(layer, 'd-none');
     this.couponId = 0;
@@ -151,9 +164,17 @@ export class VendorCouponsComponent implements OnInit {
       next: (res) => {
         console.log(res);
         this._Renderer2.removeClass(layer, 'd-none');
-        this.couponDataForm.get('code')?.setValue(res.code);
-        this.couponDataForm.get('discount')?.setValue(res.discount);
-        this.couponDataForm.get('active')?.setValue(res.active);
+
+        // Fill form values from response
+        this.couponDataForm.patchValue({
+          code: res.code,
+          discount_type: res.discount_type,
+          discount_value: res.discount_value,
+          usage_limit: res.usage_limit,
+          valid_from: res.valid_from ? res.valid_from.split('T')[0] : null,
+          valid_to: res.valid_to ? res.valid_to.split('T')[0] : null,
+          active: res.active,
+        });
       },
       error: (err) => {
         console.log(err);
@@ -164,17 +185,25 @@ export class VendorCouponsComponent implements OnInit {
   // update coupon
   updateCoupon(couponId: number, layer: HTMLDivElement) {
     if (this.couponDataForm.valid) {
-      const itemData: FormGroup = this._FormBuilder.group({
-        vendor_id: 1,
-        code: this.couponDataForm.get('code')?.value,
-        discount: this.couponDataForm.get('discount')?.value,
-        active: this.couponDataForm.get('active')?.value,
+      const formData = new FormData();
+
+      Object.entries(this.couponDataForm.value).forEach(([key, value]) => {
+        if (value instanceof File) {
+          // لو القيمة عبارة عن ملف
+          formData.append(key, value);
+        } else if (value !== null && value !== undefined) {
+          if (typeof value === 'object') {
+            // أي object (مثلاً dates أو arrays)
+            formData.append(key, JSON.stringify(value));
+          } else {
+            // أي primitive تاني (string, number, boolean)
+            formData.append(key, value.toString());
+          }
+        }
       });
 
-      const formData = new FormData();
-      Object.keys(itemData.value).forEach((key) => {
-        formData.append(key, itemData.get(key)?.value);
-      });
+      // لو عندك vendorId لازم يترسل
+      formData.append('vendor_id', this.vendorId.toString());
 
       this._VendorCoponsService
         .updateCoupon(this.vendorId, couponId, formData)
@@ -193,6 +222,21 @@ export class VendorCouponsComponent implements OnInit {
       console.log('all inputs are required');
       this.couponDataForm.markAllAsTouched();
     }
+  }
+
+  // reset form for creating new coupon
+  editCoupon(layer: HTMLDivElement) {
+    this.couponId = 0;
+    this.couponDataForm.reset({
+      code: '',
+      discount_type: 'percent',
+      discount_value: 0,
+      usage_limit: null,
+      valid_from: null,
+      valid_to: null,
+      active: false,
+    });
+    this._Renderer2.removeClass(layer, 'd-none');
   }
 
   isArabic(): boolean {

@@ -64,33 +64,33 @@ export class LoginComponent implements OnInit {
     return this.translate.currentLang === 'ar';
   }
 
-  handleLogin() {
-    if (this.loginForm.valid) {
-      this.isloading = true;
+handleLogin() {
+  if (this.loginForm.valid) {
+    this.isloading = true;
 
-      const formData = new FormData();
-      Object.keys(this.loginForm.value).forEach((key) => {
-        formData.append(key, this.loginForm.get(key)?.value);
-      });
+    const formData = new FormData();
+    Object.keys(this.loginForm.value).forEach((key) => {
+      formData.append(key, this.loginForm.get(key)?.value);
+    });
 
-      this._AuthService.login(formData, this.currentLang).subscribe({
-        next: (response) => {
-          this.isloading = false;
-          if (response.status == 'success') {
-            localStorage.setItem('eToken', response.tokens.access);
-            this._ToastrService.success(response.message);
-            this._Router.navigate(['/home']);
-          } else {
-            this._ToastrService.warning(response.message);
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          this.isloading = false;
-          this._ToastrService.warning(err.error.detail);
-        },
-      });
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+    this._AuthService.login(formData, this.currentLang).subscribe({
+      next: (response) => {
+        this.isloading = false;
+
+        if (response.access) {
+          this._ToastrService.success('Login successfully ✅');
+          this._Router.navigate(['/home']);
+        } else {
+          this._ToastrService.warning('Invalid login response');
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.isloading = false;
+        this._ToastrService.warning(err.error.detail || 'Login failed');
+      },
+    });
+  } else {
+    this.loginForm.markAllAsTouched();
   }
+}
 }

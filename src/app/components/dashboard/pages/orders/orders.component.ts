@@ -14,6 +14,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { RouterModule } from '@angular/router';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-orders',
@@ -46,7 +47,8 @@ export class OrdersComponent implements OnInit {
   constructor(
     private _AdminDashboardService: AdminDashboardService,
     private translate: TranslateService,
-    private _CommonService: CommonService
+    private _CommonService: CommonService,
+    private _AuthService:AuthService
   ) {}
 
   ngOnInit(): void {
@@ -62,10 +64,7 @@ export class OrdersComponent implements OnInit {
     });
   }
   decodeToken() {
-    const encode = localStorage.getItem('eToken');
-    if (encode !== null) {
-      this.userData = jwtDecode(encode);
-    }
+    this.userData=this._AuthService.userInfo;
   }
 
   getDashboardProduct(): void {
@@ -75,8 +74,6 @@ export class OrdersComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.products = res;
-          console.log("product",this.products);
-          
           this.loading = false;
           this.orderloading = false;
         },

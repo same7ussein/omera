@@ -12,6 +12,7 @@ import { CommonService } from 'src/app/shared/services/common.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { WishlistService } from 'src/app/shared/services/wishlist.service';
 import { LoadingComponent } from '../loading/loading.component';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -34,6 +35,7 @@ export class WishlistComponent implements OnInit {
     private _ProductsService: ProductsService,
     private _CommonService: CommonService,
     private translate:TranslateService,
+    private _AuthService:AuthService
   ) {}
   currency: any;
   ngOnInit(): void {
@@ -116,11 +118,6 @@ export class WishlistComponent implements OnInit {
       });
   }
   decodeToken(): void {
-    const token = localStorage.getItem('eToken');
-    if (token !== null) {
-      this.userId = jwtDecode(token);
-    } else {
-      this.userId = 'notLogin';
-    }
+    this.userId=this._AuthService.userInfo;
   }
 }

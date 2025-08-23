@@ -185,12 +185,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   decodeToken(): void {
-    const token = localStorage.getItem('eToken');
-    if (token !== null) {
-      this.idOfUser = jwtDecode(token);
-    } else {
-      this.idOfUser = 'notLogin';
-    }
+    this.idOfUser=this._AuthService.userInfo;
   }
   // add to cart func
   addToCart(

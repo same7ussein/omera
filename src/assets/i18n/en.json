@@ -259,7 +259,22 @@
     "unit price": "Unit Price",
     "size": "Size",
     "color": "Color",
-    "total": "Total"
+    "total": "Total",
+    "discount_type": "Discount Type",
+    "percent": "Percentage",
+    "amount": "Fixed Amount",
+    "discount_value": "Discount Value",
+    "enter_discount_value": "Enter Discount Value",
+    "vendor": "Vendor",
+    "used_by": "Used By",
+    "code": "Coupon Code",
+    "valid_from": "Valid From",
+    "valid_to": "Valid To",
+    "usage_limit": "Usage Limit",
+    "used_count": "Used Count",
+    "active": "Active",
+    "created_at": "Created At",
+    "Optional": "Optional"
   },
   "currency": {
     "EGP": "LE",

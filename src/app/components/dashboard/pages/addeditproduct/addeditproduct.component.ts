@@ -133,11 +133,7 @@ export class AddeditproductComponent implements OnInit {
     this.getAllBrands()
 
 
-
-    if (localStorage.getItem('eToken')!==null) {
-      console.log('eToken' , localStorage.getItem('eToken'));
-      this.vendorToken = localStorage.getItem('eToken')
-    }
+    this.vendorToken=this._AuthService.getAccessToken()
 
     this._AuthService.decodeToken();
     this.vendorId = this._AuthService.userInfo?.vendor_id;

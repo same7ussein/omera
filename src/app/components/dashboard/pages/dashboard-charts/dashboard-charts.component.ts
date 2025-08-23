@@ -20,6 +20,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-charts',
@@ -56,7 +57,8 @@ export class DashboardChartsComponent implements OnInit {
     private _AdminDashboardService: AdminDashboardService,
     private _ToastrService: ToastrService,
     private _CommonService: CommonService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private _AuthService:AuthService
   ) {}
 
   ngOnInit(): void {
@@ -87,10 +89,7 @@ export class DashboardChartsComponent implements OnInit {
     });
   }
   decodeToken() {
-    const encode = localStorage.getItem('eToken');
-    if (encode !== null) {
-      this.userData = jwtDecode(encode);
-    }
+    this.userData=this._AuthService.userInfo;
   }
 
   getHomeData(): void {

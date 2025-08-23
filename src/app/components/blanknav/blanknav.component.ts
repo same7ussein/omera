@@ -167,10 +167,7 @@ export class BlanknavComponent implements OnInit {
     });
   }
   decodeToken(): void {
-    const token = localStorage.getItem('eToken');
-    if (token !== null) {
-      this.idOfUser = jwtDecode(token);
-    }
+    this.idOfUser=this._AuthService.userInfo;
   }
 
   // dropdown
@@ -195,10 +192,8 @@ export class BlanknavComponent implements OnInit {
   }
 
   logOut() {
-    if (localStorage.getItem('eToken') !== null) {
-      localStorage.removeItem('eToken');
-      this._Router.navigate(['/login']);
-    }
+    this._AuthService.logout();
+    this._Router.navigate(['/login']);
   }
 
   search: string = '';

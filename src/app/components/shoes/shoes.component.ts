@@ -268,12 +268,7 @@ export class ShoesComponent implements OnInit {
     }
   }
   decodeToken(): void {
-    const token = localStorage.getItem('eToken');
-    if (token !== null) {
-      this.userId = jwtDecode(token);
-    } else {
-      this.userId = 'notLogin';
-    }
+    this.userId=this._AuthService.userInfo;
   }
   getBestProducts(): void {
     this.loadingBest = true;
