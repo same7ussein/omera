@@ -274,7 +274,9 @@
     "used_count": "Used Count",
     "active": "Active",
     "created_at": "Created At",
-    "Optional": "Optional"
+    "Optional": "Optional",
+    "change status": "Change Order Status",
+    "order status": "Order Status"
   },
   "currency": {
     "EGP": "LE",

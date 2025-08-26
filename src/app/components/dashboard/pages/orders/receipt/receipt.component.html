@@ -45,19 +45,19 @@
     <thead>
       <tr>
         <th>Name</th>
+        <th>SKU</th>
         <th>QTY</th>
-        <th>SIZE</th>
-        <th>COLOR</th>
+        <th>Discount</th>
         <th>UNIT PRICE</th>
         <th>TOTAL</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of order?.orderitem">
-        <td>{{ item.product?.title_en }}</td>
+        <td>{{ item.product.title_en }}</td>
+        <td>{{ item.product.sku }}</td>
         <td>{{ item.qty }}</td>
-        <td>{{ item.size }}</td>
-        <td>{{ item.color }}</td>
+        <td>{{ item.saved }}</td>
         <td>{{ item.price }} {{ item.currency }}</td>
         <td>{{ item.total }} {{ item.currency }}</td>
       </tr>

@@ -178,6 +178,7 @@ export class CheckoutComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        this.codeMsgError=err.error.message;
       },
     });
   }

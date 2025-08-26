@@ -77,3 +77,61 @@ tr {
     margin-left: 0;
   }
 }
+
+.order-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0;
+  position: relative;
+}
+
+.order-progress .step {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.order-progress .circle {
+  width: 40px;
+  height: 40px;
+  background: #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  transition: 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.order-progress .circle.completed {
+  background: #228200; /* أخضر */
+  box-shadow: 0 0 10px rgba(34, 130, 0, 0.6);
+}
+
+.order-progress .line {
+  height: 4px;
+  background: #ccc;
+  flex: 1;
+  margin: 0 -20px; /* علشان يدخل النص بين الدواير */
+  transition: 0.3s;
+  position: relative;
+  top: -20px; /* يخلي الخط يمر في منتصف الدائرة */
+  z-index: 1;
+}
+
+.order-progress .line.active {
+  background: #228200;
+}
+
+.order-progress span {
+  display: block;
+  font-size: 14px;
+  margin-top: 8px;
+  text-transform: capitalize;
+}

@@ -11,6 +11,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { ReceiptComponent } from '../orders/receipt/receipt.component';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-order-details',
@@ -22,6 +24,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
     LazyLoadImageModule,
     LoadingComponent,
     ReceiptComponent,
+    FormsModule
   ],
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss'],
@@ -33,7 +36,9 @@ export class OrderDetailsComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private translate: TranslateService,
     private _CommonService: CommonService,
-    private _AuthService: AuthService
+    private _AuthService: AuthService,
+    private _ToastrService:ToastrService,
+
   ) {}
   ngOnInit(): void {
     this.getOid();
@@ -58,6 +63,26 @@ export class OrderDetailsComponent implements OnInit {
   orderData: any;
 
   showReceipt = false;
+  orderStatus: string = 'Pending';
+
+  updateStatus(orderId: string, status: string) {
+    console.log(orderId, status);
+
+    this._AdminDashboardService.editOrderStatus(orderId, status).subscribe({
+      next: (res) => {
+        if (res.message == 'Order status updated successfully') {
+          this._ToastrService.success('Order status updated successfully');
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        this._ToastrService.error(err.error.message);
+      },
+
+    })
+
+
+}
 
   getOid(): void {
     this._ActivatedRoute.paramMap.subscribe({
@@ -83,6 +108,7 @@ export class OrderDetailsComponent implements OnInit {
           console.log(res);
           this.products = res.orderitem;
           this.data = res;
+          this.orderStatus = res.order_status;
           this.loading = false;
         },
         error: (err) => {

@@ -244,6 +244,7 @@ export class CartComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         console.log(err);
         console.log(formData);
+        this._ToastrService.error(err.error.message);
       },
     });
   }

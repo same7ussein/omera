@@ -248,7 +248,7 @@
         {{ "cart." + codeMsgWarning | translate }}
       </p>
       <p *ngIf="codeMsgError" class="h3 my-5">
-        {{ "cart." + codeMsgError | translate }}
+        {{ codeMsgError | translate }}
       </p>
       <button class="btn btn-danger px-4 py-1" (click)="closeCoponAlert()">
         {{ "cart.Close" | translate }}

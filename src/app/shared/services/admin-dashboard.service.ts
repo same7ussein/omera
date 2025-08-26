@@ -10,9 +10,7 @@ export class AdminDashboardService {
   private baseUrl = environment.baseURL;
   constructor(private _HttpClient: HttpClient) {}
   getHomeData(vendorId: number): Observable<any> {
-    return this._HttpClient.get(
-      `${this.baseUrl}/v1/vendor/stats/${vendorId}/`
-    );
+    return this._HttpClient.get(`${this.baseUrl}/v1/vendor/stats/${vendorId}/`);
   }
 
   getAdminProduct(vendorId: number, lang: string): Observable<any> {
@@ -220,6 +218,13 @@ export class AdminDashboardService {
   getProductDetails(vendorId: number, productId: string): Observable<any> {
     return this._HttpClient.get(
       `${this.baseUrl}/v1/vendor-product-update/${vendorId}/${productId}/`
+    );
+  }
+  editOrderStatus(orderId: any, orderStatus: string): Observable<any> {
+    return this._HttpClient.patch(
+      `${this.baseUrl}/v1/vendor-change-order-status/${orderId}/`,
+      { order_status: orderStatus },
+      { headers: { 'Content-Type': 'application/json' } }
     );
   }
 }

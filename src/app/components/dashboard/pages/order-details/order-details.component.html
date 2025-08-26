@@ -53,6 +53,60 @@
     </div>
   </div>
 
+  <!-- Order Status -->
+<div class="row my-4">
+  <div class="col-12">
+    <div class="shadow p-4 rounded-3">
+
+      <!-- Vendor Dropdown -->
+      <div>
+        <label for="status">{{ "dashboard.change status" | translate }}</label>
+        <select
+          id="status"
+          class="form-select mt-2"
+          [(ngModel)]="orderStatus"
+          (change)="updateStatus(Oid, orderStatus)"
+        >
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="On Delivery">On Delivery</option>
+          <option value="Delivered">Delivered</option>
+        </select>
+      </div>
+
+
+<!-- Customer Progress Timeline -->
+<div  class="order-progress">
+  <div class="step"  [class.active]="['Pending','Approved','On Delivery','Delivered'].includes(orderStatus)">
+    <div class="circle" [class.completed]="['Pending','Approved','On Delivery','Delivered'].includes(orderStatus)">✔</div>
+    <span>Pending</span>
+  </div>
+  <div class="line" [class.active]="['Approved','On Delivery','Delivered'].includes(orderStatus)"></div>
+
+  <div class="step" [class.active]="['Approved','On Delivery','Delivered'].includes(orderStatus)">
+    <div class="circle" [class.completed]="['Approved','On Delivery','Delivered'].includes(orderStatus)">✔</div>
+    <span>Approved</span>
+  </div>
+  <div class="line" [class.active]="['On Delivery','Delivered'].includes(orderStatus)"></div>
+
+  <div class="step" [class.active]="['On Delivery','Delivered'].includes(orderStatus)">
+    <div class="circle" [class.completed]="['On Delivery','Delivered'].includes(orderStatus)">✔</div>
+    <span>On Delivery</span>
+  </div>
+  <div class="line" [class.active]="orderStatus === 'Delivered'"></div>
+
+  <div class="step" [class.active]="orderStatus === 'Delivered'">
+    <div class="circle" [class.completed]="orderStatus === 'Delivered'">✔</div>
+    <span>Delivered</span>
+  </div>
+</div>
+  </div>
+</div>
+  </div>
+
+
+
+
   <!-- Responsive Table -->
   <div class="table-responsive">
     <p-table
