@@ -2,8 +2,33 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { dashboardGuard } from './shared/guard/dashboard.guard';
 import { AuthGuard } from './guards/auth.guard';
+import { VendorLayoutComponent } from './components/new-vendor-dashboard/layout/vendor-layout/vendor-layout.component';
+import { DashboardComponent } from './components/new-vendor-dashboard/pages/dashboard/dashboard.component';
+import { CouponsComponent } from './components/new-vendor-dashboard/pages/coupons/coupons.component';
+import { NotificationsComponent } from './components/new-vendor-dashboard/pages/notifications/notifications.component';
+import { OrdersComponent } from './components/new-vendor-dashboard/pages/orders/orders/orders.component';
+import { OrderDetailsComponent } from './components/new-vendor-dashboard/pages/orders/order-details/order-details.component';
+import { ProductsComponent } from './components/new-vendor-dashboard/pages/products/products.component';
+import { EditProductComponent } from './components/new-vendor-dashboard/pages/products/edit-product/edit-product.component';
+import { VendorAuthGuard } from './guards/vendor.guard';
 
 const routes: Routes = [
+  {
+    path: 'new-vendor',
+    component: VendorLayoutComponent,
+    canActivate: [VendorAuthGuard],
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'add-product', component: ProductsComponent },
+      { path: 'product/:id', component: EditProductComponent },
+      { path: 'coupons', component: CouponsComponent },
+      { path: 'notifications', component: NotificationsComponent },
+      { path: 'orders', component: OrdersComponent },
+      { path: 'orderDetails/:oid', component: OrderDetailsComponent },
+
+    ],
+  },
   {
     path: '',
     loadComponent: () =>
@@ -169,84 +194,6 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: '',
-    canActivate: [dashboardGuard],
-    loadComponent: () =>
-      import('./components/dashboard/layout/layout.component').then(
-        (m) => m.LayoutComponent
-      ),
-
-    children: [
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./components/dashboard/pages/home/home.component').then(
-            (m) => m.HomeComponent
-          ),
-        children: [
-          { path: '', redirectTo: 'home', pathMatch: 'full' },
-          {
-            path: 'home',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/dashboard-charts/dashboard-charts.component'
-              ).then((m) => m.DashboardChartsComponent),
-            title: 'Admin Dashboard',
-          },
-          {
-            path: 'orders',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/orders/orders.component'
-              ).then((m) => m.OrdersComponent),
-            title: 'Orders Dashboard',
-          },
-          {
-            path: 'orderDetails/:oid',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/order-details/order-details.component'
-              ).then((m) => m.OrderDetailsComponent),
-            title: 'order-details Dashboard',
-          },
-
-          {
-            path: 'addproduct',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/addeditproduct/addeditproduct.component'
-              ).then((m) => m.AddeditproductComponent),
-            title: 'add Product Dashboard',
-          },
-          {
-            path: 'addproduct/:id',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/addeditproduct/addeditproduct.component'
-              ).then((m) => m.AddeditproductComponent),
-            title: 'add Product Dashboard',
-          },
-          {
-            path: 'vendorCoupons',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/vendor-coupons/vendor-coupons.component'
-              ).then((m) => m.VendorCouponsComponent),
-            title: 'vendor Coupons',
-          },
-          {
-            path: 'vendorNotifications',
-            loadComponent: () =>
-              import(
-                './components/dashboard/pages/vendor-notifications/vendor-notifications.component'
-              ).then((m) => m.VendorNotificationsComponent),
-            title: 'vendor Coupons',
-          },
-        ],
-      },
-    ],
-  },
 
   {
     path: '',
@@ -298,6 +245,7 @@ const routes: Routes = [
       ),
     title: 'Not Found',
   },
+
 ];
 
 @NgModule({

@@ -1,0 +1,236 @@
+<div class="product-form-container">
+  <div class="form-header text-center mb-4">
+    <h2 class="form-title">🛍️ Product Form</h2>
+    <p class="text-muted">Fill out the details below to create a product</p>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+      <label>Thumbnail</label>
+      <input
+        type="file"
+        class="form-control"
+        (change)="onThumbnailChange($event)"
+        accept="image/*"
+      />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Title (EN)</label>
+      <input type="text" formControlName="title_en" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+      <label>Description (EN)</label>
+      <textarea
+        formControlName="description_en"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4 form-group mb-3">
+        <label>Category</label>
+        <select class="form-select" formControlName="category">
+          <option value="">-- Select --</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat">
+            {{ cat.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 form-group mb-3">
+        <label>Brand</label>
+        <select class="form-select" formControlName="brand">
+          <option value="">-- Select --</option>
+          <option *ngFor="let brand of brands" [ngValue]="brand">
+            {{ brand.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <label>Stock Qty</label>
+        <input type="number" class="form-control" formControlName="stock_qty" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 form-group">
+        <label>Price (EGP)</label>
+        <input type="number" class="form-control" formControlName="price_EGP" />
+      </div>
+      <div class="col-md-4 form-group">
+        <label>SKU</label>
+        <input type="text" class="form-control" formControlName="sku" />
+      </div>
+      <div class="col-md-4 form-check mt-4">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          formControlName="is_new_collections"
+        />
+        <label class="form-check-label">New Collection</label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h4>Specifications</h4>
+      <div formArrayName="specifications">
+        <div
+          *ngFor="let spec of specifications.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-5">
+            <input
+              type="text"
+              formControlName="title_en"
+              class="form-control"
+              placeholder="Title EN"
+            />
+          </div>
+          <div class="col-md-5">
+            <input
+              type="text"
+              formControlName="content_en"
+              class="form-control"
+              placeholder="Content EN"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(specifications, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addSpecification()"
+      >
+        + Add Specification
+      </button>
+    </div>
+
+    <div class="form-section">
+      <h4>Colors</h4>
+      <div formArrayName="colors">
+        <div
+          *ngFor="let color of colors.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-10">
+            <input
+              type="text"
+              formControlName="name_en"
+              class="form-control"
+              placeholder="Color Name"
+            />
+          </div>
+
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(colors, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addColor()"
+      >
+        + Add Color
+      </button>
+    </div>
+
+    <div class="form-section">
+      <h4>Sizes</h4>
+      <div formArrayName="sizes">
+        <div
+          *ngFor="let size of sizes.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-10">
+            <input
+              type="text"
+              formControlName="name_en"
+              class="form-control"
+              placeholder="Size"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(sizes, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" (click)="addSize()">
+        + Add Size
+      </button>
+    </div>
+
+    <div class="form-section">
+      <h4>Gallery</h4>
+      <div formArrayName="galleries">
+        <div
+          *ngFor="let gallery of galleries.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-10">
+            <input
+              type="file"
+              class="form-control"
+              (change)="onGalleryChange($event)"
+              multiple
+              accept="image/*"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(galleries, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addGallery()"
+      >
+        + Add Gallery
+      </button>
+    </div>
+
+    <div class="form-actions mt-3 d-flex justify-content-center">
+      <button
+        type="submit"
+        [disabled]="productForm.invalid"
+        class="btn btn-outline-success"
+      >
+        {{ productData ? "Update Product" : "Add Product" }}
+      </button>
+    </div>
+  </form>
+</div>

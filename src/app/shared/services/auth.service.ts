@@ -10,27 +10,34 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   private baseUrl = environment.baseURL;
-  private accessToken: string | null = null;
+  // private accessToken: string | null = null;
   public userInfo: any;
 
   constructor(private http: HttpClient) {
-    this.userInfo = 'notLogin';
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      this.setAccessToken(token);
+    } else {
+      this.userInfo = 'notLogin';
+    }
   }
 
   decodeToken(): void {
-    if (this.accessToken) {
+    const token = this.getAccessToken();
+    if (token) {
       try {
-        const decoded = jwtDecode(this.accessToken);
+        const decoded = jwtDecode(token);
         this.userInfo = decoded;
       } catch (e) {
         this.userInfo = 'notLogin';
         console.error('Failed to decode access token:', e);
-        this.accessToken = null;
+        // this.accessToken = null;
+        localStorage.removeItem('accessToken');
       }
     } else {
       this.userInfo = 'notLogin';
     }
-    console.log('userInfo', this.userInfo);
+    // console.log('userInfo', this.userInfo);
 
   }
 
@@ -84,20 +91,23 @@ export class AuthService {
   }
 
   setAccessToken(token: string): void {
-    this.accessToken = token;
+    // this.accessToken = token;
+    localStorage.setItem('accessToken', token);
     this.decodeToken();
   }
 
   getAccessToken(): string | null {
-    return this.accessToken;
+    // return this.accessToken;
+    return localStorage.getItem('accessToken');
   }
 
   isAccessTokenExpired(): boolean {
-    if (!this.accessToken) {
+    const token = this.getAccessToken();
+    if (!token) {
       return true;
     }
     try {
-      const decoded: any = jwtDecode(this.accessToken);
+      const decoded: any = jwtDecode(token);
       const exp = decoded.exp * 1000;
       return Date.now() > exp;
     } catch {
@@ -106,7 +116,8 @@ export class AuthService {
   }
 
   logout(): void {
-    this.accessToken = null;
+    // this.accessToken = null;
+    localStorage.removeItem('accessToken');
     this.userInfo = 'notLogin';
   }
 }

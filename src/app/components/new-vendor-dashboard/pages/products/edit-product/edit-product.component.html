@@ -1,0 +1,269 @@
+<div class="product-form-container">
+  <div class="form-header text-center mb-4">
+    <h2 class="form-title">✏️ Edit Product</h2>
+    <p class="text-muted">Update the details below to edit the product</p>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+ <div class="thumb-section mb-4 d-flex align-items-center justify-content-between gap-4">
+  <!-- Preview (Left) -->
+  <div class="thumb-preview-box">
+    <img
+      *ngIf="thumbnailPreview; else currentThumb"
+      [src]="thumbnailPreview"
+      alt="Thumbnail Preview"
+      class="thumb-img"
+    />
+    <ng-template #currentThumb>
+      <img
+        *ngIf="productData?.image"
+        [src]="productData.image"
+        alt="Current Thumbnail"
+        class="thumb-img"
+      />
+    </ng-template>
+  </div>
+
+  <!-- Input (Right) -->
+  <div class="thumb-input-area flex-grow-1">
+    <h4 class="mb-2">Thumbnail</h4>
+    <input
+      type="file"
+      class="form-control"
+      (change)="onThumbnailChange($event)"
+      accept="image/*"
+    />
+  </div>
+</div>
+
+
+
+    <!-- Title & Description -->
+    <div class="form-group mb-3">
+      <label>Title (EN)</label>
+      <input type="text" formControlName="title_en" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+      <label>Description (EN)</label>
+      <textarea
+        formControlName="description_en"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <!-- Category & Brand -->
+    <div class="row mb-3">
+      <div class="col-md-4 form-group">
+        <label>Category</label>
+        <select class="form-select" formControlName="category">
+          <option value="">-- Select --</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.id">
+            {{ cat.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <label>Brand</label>
+        <select class="form-select" formControlName="brand">
+          <option value="">-- Select --</option>
+          <option *ngFor="let brand of brands" [ngValue]="brand.id">
+            {{ brand.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 form-group">
+        <label>Stock Qty</label>
+        <input type="number" class="form-control" formControlName="stock_qty" />
+      </div>
+    </div>
+
+    <!-- Price, SKU, New Collection -->
+    <div class="row mb-3">
+      <div class="col-md-4 form-group">
+        <label>Price (EGP)</label>
+        <input type="number" class="form-control" formControlName="price_EGP" />
+      </div>
+      <div class="col-md-4 form-group">
+        <label>SKU</label>
+        <input type="text" class="form-control" formControlName="sku" />
+      </div>
+      <div class="col-md-4 form-check mt-4">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          formControlName="is_new_collections"
+        />
+        <label class="form-check-label">New Collection</label>
+      </div>
+    </div>
+
+    <!-- Specifications -->
+    <div class="form-section mb-4">
+      <h4>Specifications</h4>
+      <div formArrayName="specifications">
+        <div
+          *ngFor="let spec of specifications.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-5">
+            <input
+              type="text"
+              formControlName="title_en"
+              class="form-control"
+              placeholder="Title EN"
+            />
+          </div>
+          <div class="col-md-5">
+            <input
+              type="text"
+              formControlName="content_en"
+              class="form-control"
+              placeholder="Content EN"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(specifications, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addSpecification()"
+      >
+        + Add Specification
+      </button>
+    </div>
+
+    <!-- Colors -->
+    <div class="form-section mb-4">
+      <h4>Colors</h4>
+      <div formArrayName="colors">
+        <div
+          *ngFor="let color of colors.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-10">
+            <input
+              type="text"
+              formControlName="name_en"
+              class="form-control"
+              placeholder="Color Name"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(colors, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addColor()"
+      >
+        + Add Color
+      </button>
+    </div>
+
+    <!-- Sizes -->
+    <div class="form-section mb-4">
+      <h4>Sizes</h4>
+      <div formArrayName="sizes">
+        <div
+          *ngFor="let size of sizes.controls; let i = index"
+          [formGroupName]="i"
+          class="row g-2 mb-2"
+        >
+          <div class="col-md-10">
+            <input
+              type="text"
+              formControlName="name_en"
+              class="form-control"
+              placeholder="Size"
+            />
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-outline-danger w-100"
+              (click)="removeFormItem(sizes, i)"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" (click)="addSize()">
+        + Add Size
+      </button>
+    </div>
+
+    <!-- Gallery -->
+    <div class="form-section mb-4">
+      <h4>Gallery</h4>
+      <div formArrayName="galleries">
+        <div
+          *ngFor="let gallery of galleries.controls; let i = index"
+          [formGroupName]="i"
+          class="d-flex align-items-center gap-2 mb-2"
+        >
+          <img
+            *ngIf="gallery.get('url')?.value"
+            [src]="gallery.get('url')?.value"
+            alt="Gallery Preview"
+            width="100"
+            class="img-preview"
+          />
+
+          <!-- Individual file input for this image -->
+          <input
+            type="file"
+            accept="image/*"
+            class="form-control mb-2"
+            (change)="updateGalleryFile($event, i)"
+          />
+
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="removeGallery(i)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-outline-primary" (click)="addGallery()">
+        + Add Gallery
+      </button>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-actions mt-3 d-flex justify-content-center">
+      <button
+        type="submit"
+        [disabled]="productForm.invalid || loading"
+        class="btn btn-outline-success"
+      >
+        {{ loading ? "Saving..." : "Update Product" }}
+      </button>
+    </div>
+  </form>
+</div>

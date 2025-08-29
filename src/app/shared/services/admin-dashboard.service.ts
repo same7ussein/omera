@@ -215,9 +215,9 @@ export class AdminDashboardService {
       }
     );
   }
-  getProductDetails(vendorId: number, productId: string): Observable<any> {
+  getProductDetails(productId: string): Observable<any> {
     return this._HttpClient.get(
-      `${this.baseUrl}/v1/vendor-product-update/${vendorId}/${productId}/`
+      `${this.baseUrl}/v1/vendor-product-update/${productId}/`
     );
   }
   editOrderStatus(orderId: any, orderStatus: string): Observable<any> {
@@ -227,4 +227,17 @@ export class AdminDashboardService {
       { headers: { 'Content-Type': 'application/json' } }
     );
   }
+    saveProduct(data: FormData): Observable<any> {
+    return this._HttpClient.post(
+      `${this.baseUrl}/v1/vendor-product/`,
+      data
+    );
+  }
+  updateProduct(productId: string, data: FormData): Observable<any> {
+    return this._HttpClient.patch(
+      `${this.baseUrl}/v1/vendor-product/${productId}/`,
+      data
+    );
+  }
+
 }
