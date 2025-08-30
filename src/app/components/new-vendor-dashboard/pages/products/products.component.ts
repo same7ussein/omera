@@ -21,6 +21,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { AdminDashboardService } from 'src/app/shared/services/admin-dashboard.service';
+import { minLengthArray } from 'src/app/shared/utils/custom-validation';
 
 @Component({
   selector: 'app-addeditproduct',
@@ -68,12 +69,12 @@ export class ProductsComponent implements OnInit {
       brand: ['', Validators.required],
       stock_qty: [0, Validators.required],
       price_EGP: [0, Validators.required],
-      sku: [''],
+      sku: ['',Validators.required],
       is_new_collections: [false],
 
       specifications: this.fb.array([]),
-      colors: this.fb.array([]),
-      sizes: this.fb.array([]),
+      colors: this.fb.array([], minLengthArray(1)),
+      sizes: this.fb.array([],minLengthArray(1)),
       galleries: this.fb.array([]),
     });
 
@@ -164,6 +165,7 @@ export class ProductsComponent implements OnInit {
   onSubmit() {
     // Check if the form is valid before proceeding
     if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched();
       return;
     }
 

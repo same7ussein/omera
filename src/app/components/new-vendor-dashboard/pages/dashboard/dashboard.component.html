@@ -58,7 +58,7 @@
     [loading]="loading"
     [rows]="25"
     [rowsPerPageOptions]="[25, 50, 100]"
-    [globalFilterFields]="['title', 'category']"
+    [globalFilterFields]="['title_en', 'category','sku']"
     [showCurrentPageReport]="true"
     dataKey="id"
     [rowHover]="true"
@@ -127,12 +127,12 @@
     <ng-template pTemplate="header">
       <tr [dir]="isArabic() ? 'rtl' : 'ltr'" [lang]="isArabic() ? 'ar' : 'en'">
         <th>{{ "dashboard.image" | translate }}</th>
-        <th pSortableColumn="title" class="text-center">
+        <th pSortableColumn="title_en" class="text-center">
           {{ "dashboard.Name" | translate }}
-          <p-sortIcon field="title"></p-sortIcon>
+          <p-sortIcon field="title_en"></p-sortIcon>
         </th>
         <th pSortableColumn="price_EGP">
-          {{ "dashboard.Price EGP" | translate }}
+          Price
           <p-sortIcon field="price_EGP"></p-sortIcon>
         </th>
         <th pSortableColumn="category">
@@ -198,7 +198,7 @@
           <div class="d-flex gap-1">
             <button
               class="btn btn-primary"
-              [routerLink]="['/product/details', product.slug, productCurrency]"
+              [routerLink]="['/product/details', product.slug]"
             >
               <i class="fa-solid fa-eye"></i>
             </button>

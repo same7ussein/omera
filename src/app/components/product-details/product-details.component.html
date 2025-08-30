@@ -1,6 +1,6 @@
 <div class="container my-5" *ngIf="productDetails.category &&!loading else notloaded" [dir]="isArabic() ? 'rtl' : 'ltr'">
     <div class="row g-5">
-        
+
         <div class="col-md-6 col-lg-4 col-sm-8 mx-auto">
             <div class="showImages d-flex flex-column gap-3 p-2 rounded-3 shadow bg-main-light">
                 <div class="productMainImg d-flex justify-content-center align-items-center">
@@ -22,7 +22,7 @@
                 <p>{{ratingCount}}</p>
                 <p class="ps-1" [lang]="isArabic()? 'ar':'en'">({{productDetails.rating_count}} {{'productDetails.reviews' | translate}})</p>
             </div>
-            <p class="product-price" [lang]="isArabic()? 'ar':'en'">{{productDetails.price + ' ' }} {{'currency.'+productDetails.currency | translate}}</p>
+            <p class="product-price" [lang]="isArabic()? 'ar':'en'">{{productDetails.price + ' ' }} {{'currency.EGP' | translate}}</p>
             <p class="product-details">{{productDetails.description}}</p>
             <div class="d-flex  gap-4" [lang]="isArabic()? 'ar':'en'">
                 <select #color class="form-select form-select-lg w-auto">

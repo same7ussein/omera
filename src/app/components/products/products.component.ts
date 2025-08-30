@@ -77,8 +77,11 @@ export class ProductsComponent implements OnInit {
     private translate: TranslateService
   ) {}
   ngOnInit(): void {
+    this._ActivatedRoute.queryParams.subscribe((params:any) => {
+      this.selectedCategories = params['id']? [...params['id']]:[];
+      this.getAllProducts();
+    });
 
-    this.getAllProducts();
     this.getAllCategory();
     this.getAllBrands();
     this.decodeToken();

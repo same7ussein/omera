@@ -36,12 +36,11 @@
                 <th pSortableColumn="full_name">
                     {{"dashboard.OrderName"|translate}} <p-sortIcon field="full_name"></p-sortIcon>
                 </th>
-                <th pSortableColumn="total" style="max-width:9rem">
+                <th pSortableColumn="vendor_total" style="max-width:9rem">
                     <div class="d-flex justify-content-between align-items-center">
                         {{"dashboard.Total Price"|translate}}
-                        <p-sortIcon field="total">
-                        </p-sortIcon>
-                        <p-columnFilter type="numeric" field="total" display="menu" currency="EGP">
+                        <p-sortIcon field="vendor_total"></p-sortIcon>
+                        <p-columnFilter type="numeric" field="vendor_total" display="menu" currency="EGP">
                         </p-columnFilter>
                     </div>
                 </th>

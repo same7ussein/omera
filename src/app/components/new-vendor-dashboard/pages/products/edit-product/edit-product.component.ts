@@ -12,6 +12,7 @@ import { ProductsService } from 'src/app/shared/services/products.service';
 import { ActivatedRoute } from '@angular/router';
 import { AdminDashboardService } from 'src/app/shared/services/admin-dashboard.service';
 import { ToastrService } from 'ngx-toastr';
+import { minLengthArray } from 'src/app/shared/utils/custom-validation';
 @Component({
   selector: 'app-edit-product',
   standalone: true,
@@ -61,8 +62,8 @@ export class EditProductComponent {
       sku: ['', Validators.required],
       is_new_collections: [false],
       specifications: this.fb.array([]),
-      colors: this.fb.array([]),
-      sizes: this.fb.array([]),
+      colors: this.fb.array([], minLengthArray(1)),
+      sizes: this.fb.array([], minLengthArray(1)),
       galleries: this.fb.array([]),
     });
   }
@@ -158,7 +159,7 @@ export class EditProductComponent {
 
   getAllCategories() {
     this.productsService.getAllCategory('en').subscribe({
-     next: (res: any[]) => {
+      next: (res: any[]) => {
         this.categories = res.map((item) => ({
           name: item.title,
           id: item.id,
@@ -251,15 +252,18 @@ export class EditProductComponent {
   }
 
   addColor() {
-    this.colors.push(this.fb.group({ name_en: [''] }));
+    this.colors.push(this.fb.group({ name_en: ['', [Validators.required]] }));
   }
 
   addSize() {
-    this.sizes.push(this.fb.group({ name_en: [''] }));
+    this.sizes.push(this.fb.group({ name_en: ['', [Validators.required]] }));
   }
 
   onSubmit() {
-    if (this.productForm.invalid) return;
+    if (this.productForm.invalid) {
+      this.productForm.markAllAsTouched();
+      return;
+    }
     this.loading = true;
 
     const formData = new FormData();
@@ -277,8 +281,6 @@ export class EditProductComponent {
     if (this.thumbnailFile) {
       formData.append('image', this.thumbnailFile, this.thumbnailFile.name);
     }
-
-
 
     let excistGallery: any[] = [];
 

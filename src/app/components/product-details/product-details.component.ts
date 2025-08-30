@@ -23,7 +23,6 @@ import { CartService } from 'src/app/shared/services/cart.service';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { ToastrService } from 'ngx-toastr';
 import { WishlistService } from 'src/app/shared/services/wishlist.service';
-import { jwtDecode } from 'jwt-decode';
 import { Wishlist } from 'src/app/shared/interfaces/wishlist';
 import { RatingModule } from 'primeng/rating';
 import { Review } from 'src/app/shared/interfaces/review';
@@ -102,9 +101,6 @@ export class ProductDetailsComponent implements OnInit {
     this._ActivatedRoute.paramMap.subscribe({
       next: (params) => {
         this.slug = params.get('slug');
-        this.currency = params.get('currency');
-        console.log(this.slug , this.currency , 'hoo');
-
         this.getProductDetails()
       },
       error: (err: HttpErrorResponse) => {
@@ -112,16 +108,6 @@ export class ProductDetailsComponent implements OnInit {
       },
     });
 
-    // get currecy value
-    this._CommonService.currency.subscribe({
-      next: (res) => {
-        this.currency = res.label;
-        this._Router.navigate([
-          'product/details',
-          this.productDetails.slug,this.currency
-        ]);
-      },
-    });
     this.responsiveOptions = [
       {
         breakpoint: '1400px',
@@ -132,17 +118,6 @@ export class ProductDetailsComponent implements OnInit {
         numVisible: 1,
       },
     ];
-    // get current lang
-    this._CommonService.currentLang.subscribe({
-      next: (res) => {
-        console.log(res);
-        this.currentLang = res;
-        this.getProductDetails()
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
-      },
-    });
 
     // wishlist
     this.decodeToken();

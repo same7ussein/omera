@@ -131,7 +131,7 @@
                                         <i class="fa-solid fa-heart fs-5 cursor-pointer"></i>
                                     </div>
                                     <button class="btn main-btn py-2"
-                                        [routerLink]="['/product/details', item.slug , item.currency]">
+                                        [routerLink]="['/product/details', item.slug]">
                                         {{'home.Show Product'|translate}}</button>
                                     <img [src]="(item.image.length > 0 ? item.image : './assets/placeholder/placeholder2.png')"
                                         defaultImage="./assets/placeholder/placeholder2.png" [useSrcset]="true"
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                                 <div class="cursor-pointer"
-                                    [routerLink]="['/product/details',item.slug , item.currency]">
+                                    [routerLink]="['/product/details',item.slug]">
                                     <span>{{item.category|uppercase}}</span>
                                     <h6 class="title-cell">{{item.title}}</h6>
                                     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center">

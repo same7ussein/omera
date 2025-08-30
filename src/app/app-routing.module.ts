@@ -185,7 +185,7 @@ const routes: Routes = [
         title: 'Wishlist',
       },
       {
-        path: 'product/details/:slug/:currency',
+        path: 'product/details/:slug',
         loadComponent: () =>
           import('./components/product-details/product-details.component').then(
             (m) => m.ProductDetailsComponent

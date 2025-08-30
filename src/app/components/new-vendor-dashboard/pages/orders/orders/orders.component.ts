@@ -76,6 +76,8 @@ export class OrdersComponent implements OnInit {
           this.products = res;
           this.loading = false;
           this.orderloading = false;
+          this.products.forEach((product) => (product.date = new Date(<Date>product.date)));
+
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
@@ -227,4 +229,5 @@ export class OrdersComponent implements OnInit {
   isArabic(): boolean {
     return this.translate.currentLang === 'ar';
   }
+
 }

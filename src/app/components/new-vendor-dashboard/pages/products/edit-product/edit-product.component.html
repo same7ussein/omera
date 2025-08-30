@@ -5,52 +5,71 @@
   </div>
 
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <!-- Thumbnail -->
+    <div
+      class="thumb-section mb-4 d-flex align-items-center justify-content-between gap-4"
+    >
+      <!-- Preview (Left) -->
+      <div class="thumb-preview-box">
+        <img
+          *ngIf="thumbnailPreview; else currentThumb"
+          [src]="thumbnailPreview"
+          alt="Thumbnail Preview"
+          class="thumb-img"
+        />
+        <ng-template #currentThumb>
+          <img
+            *ngIf="productData?.image"
+            [src]="productData.image"
+            alt="Current Thumbnail"
+            class="thumb-img"
+          />
+        </ng-template>
+      </div>
 
- <div class="thumb-section mb-4 d-flex align-items-center justify-content-between gap-4">
-  <!-- Preview (Left) -->
-  <div class="thumb-preview-box">
-    <img
-      *ngIf="thumbnailPreview; else currentThumb"
-      [src]="thumbnailPreview"
-      alt="Thumbnail Preview"
-      class="thumb-img"
-    />
-    <ng-template #currentThumb>
-      <img
-        *ngIf="productData?.image"
-        [src]="productData.image"
-        alt="Current Thumbnail"
-        class="thumb-img"
-      />
-    </ng-template>
-  </div>
-
-  <!-- Input (Right) -->
-  <div class="thumb-input-area flex-grow-1">
-    <h4 class="mb-2">Thumbnail</h4>
-    <input
-      type="file"
-      class="form-control"
-      (change)="onThumbnailChange($event)"
-      accept="image/*"
-    />
-  </div>
-</div>
-
-
-
-    <!-- Title & Description -->
-    <div class="form-group mb-3">
-      <label>Title (EN)</label>
-      <input type="text" formControlName="title_en" class="form-control" />
+      <!-- Input (Right) -->
+      <div class="thumb-input-area flex-grow-1">
+        <h4 class="mb-2">Thumbnail</h4>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onThumbnailChange($event)"
+          accept="image/*"
+        />
+      </div>
     </div>
 
+    <!-- Title -->
     <div class="form-group mb-3">
-      <label>Description (EN)</label>
+      <label>Title</label>
+      <input type="text" formControlName="title_en" class="form-control" />
+      <div
+        *ngIf="
+          productForm.get('title_en')?.touched &&
+          productForm.get('title_en')?.hasError('required')
+        "
+        class="text-danger mt-1"
+      >
+        Title is required.
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group mb-3">
+      <label>Description</label>
       <textarea
         formControlName="description_en"
         class="form-control"
       ></textarea>
+      <div
+        *ngIf="
+          productForm.get('description_en')?.touched &&
+          productForm.get('description_en')?.hasError('required')
+        "
+        class="text-danger mt-1"
+      >
+        Description is required.
+      </div>
     </div>
 
     <!-- Category & Brand -->
@@ -63,6 +82,15 @@
             {{ cat.name }}
           </option>
         </select>
+        <div
+          *ngIf="
+            productForm.get('category')?.touched &&
+            productForm.get('category')?.hasError('required')
+          "
+          class="text-danger mt-1"
+        >
+          Category is required.
+        </div>
       </div>
 
       <div class="col-md-4 form-group">
@@ -73,11 +101,29 @@
             {{ brand.name }}
           </option>
         </select>
+        <div
+          *ngIf="
+            productForm.get('brand')?.touched &&
+            productForm.get('brand')?.hasError('required')
+          "
+          class="text-danger mt-1"
+        >
+          Brand is required.
+        </div>
       </div>
 
       <div class="col-md-4 form-group">
         <label>Stock Qty</label>
         <input type="number" class="form-control" formControlName="stock_qty" />
+        <div
+          *ngIf="
+            productForm.get('stock_qty')?.touched &&
+            productForm.get('stock_qty')?.hasError('required')
+          "
+          class="text-danger mt-1"
+        >
+          Stock quantity is required.
+        </div>
       </div>
     </div>
 
@@ -86,10 +132,33 @@
       <div class="col-md-4 form-group">
         <label>Price (EGP)</label>
         <input type="number" class="form-control" formControlName="price_EGP" />
+        <div
+          *ngIf="
+            productForm.get('price_EGP')?.touched &&
+            productForm.get('price_EGP')?.hasError('required')
+          "
+          class="text-danger mt-1"
+        >
+          Price is required.
+        </div>
       </div>
       <div class="col-md-4 form-group">
         <label>SKU</label>
-        <input type="text" class="form-control" formControlName="sku" />
+        <input
+          type="text"
+          placeholder="enter sku"
+          class="form-control"
+          formControlName="sku"
+        />
+        <div
+          *ngIf="
+            productForm.get('sku')?.touched &&
+            productForm.get('sku')?.hasError('required')
+          "
+          class="text-danger mt-1"
+        >
+          SKU is required.
+        </div>
       </div>
       <div class="col-md-4 form-check mt-4">
         <input
@@ -115,7 +184,7 @@
               type="text"
               formControlName="title_en"
               class="form-control"
-              placeholder="Title EN"
+              placeholder="Title"
             />
           </div>
           <div class="col-md-5">
@@ -123,7 +192,7 @@
               type="text"
               formControlName="content_en"
               class="form-control"
-              placeholder="Content EN"
+              placeholder="Content"
             />
           </div>
           <div class="col-md-2">
@@ -162,6 +231,15 @@
               class="form-control"
               placeholder="Color Name"
             />
+            <div
+              *ngIf="
+                color.get('name_en')?.touched &&
+                color.get('name_en')?.hasError('required')
+              "
+              class="text-danger mt-1"
+            >
+              Color name is required.
+            </div>
           </div>
           <div class="col-md-2">
             <button
@@ -173,6 +251,15 @@
             </button>
           </div>
         </div>
+      </div>
+      <div
+        class="text-danger mt-1"
+        *ngIf="
+          productForm.get('colors')?.hasError('required') &&
+          (productForm.get('colors')?.touched || productForm.touched)
+        "
+      >
+        At least one color is required.
       </div>
       <button
         type="button"
@@ -199,7 +286,17 @@
               class="form-control"
               placeholder="Size"
             />
+            <div
+              *ngIf="
+                size.get('name_en')?.touched &&
+                size.get('name_en')?.hasError('required')
+              "
+              class="text-danger mt-1"
+            >
+              Size is required.
+            </div>
           </div>
+
           <div class="col-md-2">
             <button
               type="button"
@@ -210,6 +307,15 @@
             </button>
           </div>
         </div>
+      </div>
+      <div
+        class="text-danger mt-1"
+        *ngIf="
+          productForm.get('sizes')?.hasError('required') &&
+          (productForm.get('sizes')?.touched || productForm.touched)
+        "
+      >
+        At least one size is required.
       </div>
       <button type="button" class="btn btn-outline-primary" (click)="addSize()">
         + Add Size
@@ -250,7 +356,11 @@
           </button>
         </div>
       </div>
-      <button type="button" class="btn btn-outline-primary" (click)="addGallery()">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="addGallery()"
+      >
         + Add Gallery
       </button>
     </div>
@@ -259,7 +369,7 @@
     <div class="form-actions mt-3 d-flex justify-content-center">
       <button
         type="submit"
-        [disabled]="productForm.invalid || loading"
+        [disabled]="loading"
         class="btn btn-outline-success"
       >
         {{ loading ? "Saving..." : "Update Product" }}

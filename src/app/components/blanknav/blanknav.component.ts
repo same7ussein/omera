@@ -215,7 +215,7 @@ export class BlanknavComponent implements OnInit {
     }
   }
   routing(item: any) {
-    this._Router.navigate(['/product/details', item.slug, item.currency]);
+    this._Router.navigate(['/product/details', item.slug]);
     this.search = '';
   }
 
