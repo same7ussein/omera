@@ -1,11 +1,10 @@
 aside {
       width: 250px;
-      height:-webkit-fill-available;
+      height:100vh;
       position: fixed;
       top: 0;
       bottom: 0;
       left: 0;
-      z-index: 1000;
       transition: transform 0.3s ease-in-out;
       transform: translateX(-250px);
     }
