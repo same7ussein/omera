@@ -124,7 +124,7 @@ export class ProductDetailsComponent implements OnInit {
     if (this.idOfUser !== 'notLogin') {
       this.formData.append('user_id', this.idOfUser.user_id.toString());
       this._WishlistService
-        .getWishlist(this.currency, this.idOfUser.user_id, this.currentLang)
+        .getWishlist('EGP', this.idOfUser.user_id, this.currentLang)
         .subscribe({
           next: (res) => {
             this.wishlistData = res.map((item: any) => item.product.id);
@@ -279,6 +279,11 @@ export class ProductDetailsComponent implements OnInit {
   });
 
   handleReview() {
+    if (this._AuthService.userInfo === 'notLogin') {
+    this._AuthService.setRedirectUrl(this._Router.url);
+    this._Router.navigate(['/login']);
+    return;
+  }
     this.loading = true;
     if (this.reviewForm.valid) {
       const formData = new FormData();

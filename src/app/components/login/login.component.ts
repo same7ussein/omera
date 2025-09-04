@@ -64,33 +64,39 @@ export class LoginComponent implements OnInit {
     return this.translate.currentLang === 'ar';
   }
 
-handleLogin() {
-  if (this.loginForm.valid) {
-    this.isloading = true;
+  handleLogin() {
+    if (this.loginForm.valid) {
+      this.isloading = true;
 
-    const formData = new FormData();
-    Object.keys(this.loginForm.value).forEach((key) => {
-      formData.append(key, this.loginForm.get(key)?.value);
-    });
+      const formData = new FormData();
+      Object.keys(this.loginForm.value).forEach((key) => {
+        formData.append(key, this.loginForm.get(key)?.value);
+      });
 
-    this._AuthService.login(formData, this.currentLang).subscribe({
-      next: (response) => {
-        this.isloading = false;
+      this._AuthService.login(formData, this.currentLang).subscribe({
+        next: (response) => {
+          this.isloading = false;
 
-        if (response.access) {
-          this._ToastrService.success('Login successfully ✅');
-          this._Router.navigate(['/home']);
-        } else {
-          this._ToastrService.warning('Invalid login response');
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        this.isloading = false;
-        this._ToastrService.warning(err.error.detail || 'Login failed');
-      },
-    });
-  } else {
-    this.loginForm.markAllAsTouched();
+          if (response.access) {
+            this._ToastrService.success('Login successfully ✅');
+            const redirect = this._AuthService.getRedirectUrl();
+            if (redirect) {
+              this._AuthService.clearRedirectUrl();
+              this._Router.navigateByUrl(redirect);
+            } else {
+              this._Router.navigate(['/home']);
+            }
+          } else {
+            this._ToastrService.warning('Invalid login response');
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          this.isloading = false;
+          this._ToastrService.warning(err.error.detail || 'Login failed');
+        },
+      });
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
-}
 }

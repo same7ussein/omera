@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
     '/v1/product-new/',
     '/v1/paymob/callback/',
     '/v1/shop/',
-    '/assets/i18n/'
+    '/assets/i18n/',
   ];
 
   private isRefreshing = false;
@@ -38,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.publicUrls.some(url => req.url.includes(url)) || req.url.includes('token/refresh')) {
+    if (this.publicUrls.some(url => req.url.includes(url)) || req.url.includes('token/refresh') || req.url.startsWith('/v1/product')||(req.method === 'GET' && req.url.includes('/v1/reviews/')) ) {
       return next.handle(req);
     }
 
